@@ -1,0 +1,4 @@
+dao_ticketing:
+    resource: "@DAOTicketingBundle/Resources/config/routing.yml"
+    prefix:   /
+
