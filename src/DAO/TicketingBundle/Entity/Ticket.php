@@ -45,6 +45,27 @@ class Ticket
     /**
      * @var string
      *
+     * @ORM\Column(name="prenom_visiteur", type="string", length=255)
+     */
+    private $prenomVisiteur;
+
+    /**
+     * @var date
+     *
+     * @ORM\Column(name="birth_visiteur", type="date", length=255)
+     */
+    private $birthVisiteur;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pays", type="string", length=255)
+     */
+    private $pays;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="code_resa", type="string", length=255)
      */
     private $codeResa;
@@ -54,6 +75,20 @@ class Ticket
     */
     private $reduced = false;
 
+    /**
+    *@ORM\Column(name="ticket_type", type="boolean")
+    */
+    private $ticketType;
+
+    /**
+    *@ORM\Column(name="nb_tickets", type="string")
+    */
+    private $nbTickets;
+
+    public function __construct()
+    {
+        $this->date = new \Datetime();
+    }
 
     /**
      * Get id
@@ -183,5 +218,125 @@ class Ticket
     public function getReduced()
     {
         return $this->reduced;
+    }
+
+    /**
+     * Set ticketType.
+     *
+     * @param bool $ticketType
+     *
+     * @return Ticket
+     */
+    public function setTicketType($ticketType)
+    {
+        $this->ticketType = $ticketType;
+
+        return $this;
+    }
+
+    /**
+     * Get ticketType.
+     *
+     * @return bool
+     */
+    public function getTicketType()
+    {
+        return $this->ticketType;
+    }
+
+    /**
+     * Set nbTickets.
+     *
+     * @param string $nbTickets
+     *
+     * @return Ticket
+     */
+    public function setNbTickets($nbTickets)
+    {
+        $this->nbTickets = $nbTickets;
+
+        return $this;
+    }
+
+    /**
+     * Get nbTickets.
+     *
+     * @return string
+     */
+    public function getNbTickets()
+    {
+        return $this->nbTickets;
+    }
+
+    /**
+     * Set prenomVisiteur.
+     *
+     * @param string $prenomVisiteur
+     *
+     * @return Ticket
+     */
+    public function setPrenomVisiteur($prenomVisiteur)
+    {
+        $this->prenomVisiteur = $prenomVisiteur;
+
+        return $this;
+    }
+
+    /**
+     * Get prenomVisiteur.
+     *
+     * @return string
+     */
+    public function getPrenomVisiteur()
+    {
+        return $this->prenomVisiteur;
+    }
+
+    /**
+     * Set pays.
+     *
+     * @param string $pays
+     *
+     * @return Ticket
+     */
+    public function setPays($pays)
+    {
+        $this->pays = $pays;
+
+        return $this;
+    }
+
+    /**
+     * Get pays.
+     *
+     * @return string
+     */
+    public function getPays()
+    {
+        return $this->pays;
+    }
+
+    /**
+     * Set birthVisiteur.
+     *
+     * @param \DateTime $birthVisiteur
+     *
+     * @return Ticket
+     */
+    public function setBirthVisiteur($birthVisiteur)
+    {
+        $this->birthVisiteur = $birthVisiteur;
+
+        return $this;
+    }
+
+    /**
+     * Get birthVisiteur.
+     *
+     * @return \DateTime
+     */
+    public function getBirthVisiteur()
+    {
+        return $this->birthVisiteur;
     }
 }

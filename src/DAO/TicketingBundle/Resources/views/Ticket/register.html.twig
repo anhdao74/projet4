@@ -1,0 +1,26 @@
+{# src/DAO/TicketingBundle/Resources/views/Ticket/register.html.twig #}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Billeterie du Louvre</title>
+  </head>
+  <body>
+    <img src = "logoLouvre.jpg" alt = "logo"/>
+    <h1>Billeterie du Louvre</h1>
+
+
+
+{% block daoticketing_body %}
+
+  <h2>Veuillez renseigner les informations des visiteurs :</h2>
+
+  {{ include("DAOTicketingBundle:Ticket:form1.html.twig") }}
+
+   <a href="{{ path('dao_ticketing_summery') }}" class="btn btn-danger">
+      <i class="glyphicon glyphicon-trash"></i>
+      Enregistrer
+    </a>
+
+
+{% endblock %}
