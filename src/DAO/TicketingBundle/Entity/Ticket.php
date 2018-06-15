@@ -2,7 +2,10 @@
 
 namespace DAO\TicketingBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Ticket
@@ -22,73 +25,36 @@ class Ticket
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="tarif", type="string", length=255)
-     */
-    private $tarif;
-
-    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_resa", type="datetimetz")
+     * @ORM\Column(name="date_resa", type="date")
+     * @Assert\Date()
      */
     private $dateResa;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nom_visiteur", type="string", length=255)
+     * @ORM\Column(name="mail_visiteur", type="string", length=255)
+     * @Assert\Email
      */
-    private $nomVisiteur;
+    private $mailVisiteur;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="prenom_visiteur", type="string", length=255)
-     */
-    private $prenomVisiteur;
-
-    /**
-     * @var date
-     *
-     * @ORM\Column(name="birth_visiteur", type="date", length=255)
-     */
-    private $birthVisiteur;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="pays", type="string", length=255)
-     */
-    private $pays;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="code_resa", type="string", length=255)
-     */
-    private $codeResa;
-
-    /**
-    *@ORM\Column(name="reduced", type="boolean")
-    */
-    private $reduced = false;
-
-    /**
-    *@ORM\Column(name="ticket_type", type="boolean")
+    *@ORM\Column(name="ticket_type", type="string")
     */
     private $ticketType;
 
     /**
-    *@ORM\Column(name="nb_tickets", type="string")
+    *@ORM\Column(name="nb_tickets", type="integer")
+    * @Assert\Range(min=1, max=100)
     */
     private $nbTickets;
 
-    public function __construct()
-    {
-        $this->date = new \Datetime();
-    }
+    /**
+    * @ORM\OneToOne(targetEntity="DAO\TicketingBundle\Entity\Visitor", cascade={"persist"})
+    */
+    private $visitor;
 
     /**
      * Get id
@@ -101,33 +67,9 @@ class Ticket
     }
 
     /**
-     * Set tarif
-     *
-     * @param string $tarif
-     *
-     * @return Ticket
-     */
-    public function setTarif($tarif)
-    {
-        $this->tarif = $tarif;
-
-        return $this;
-    }
-
-    /**
-     * Get tarif
-     *
-     * @return string
-     */
-    public function getTarif()
-    {
-        return $this->tarif;
-    }
-
-    /**
      * Set dateResa
      *
-     * @param \DateTime $dateResa
+     * @param \Date $dateResa
      *
      * @return Ticket
      */
@@ -141,7 +83,7 @@ class Ticket
     /**
      * Get dateResa
      *
-     * @return \DateTime
+     * @return \Date
      */
     public function getDateResa()
     {
@@ -149,81 +91,9 @@ class Ticket
     }
 
     /**
-     * Set nomVisiteur
-     *
-     * @param string $nomVisiteur
-     *
-     * @return Ticket
-     */
-    public function setNomVisiteur($nomVisiteur)
-    {
-        $this->nomVisiteur = $nomVisiteur;
-
-        return $this;
-    }
-
-    /**
-     * Get nomVisiteur
-     *
-     * @return string
-     */
-    public function getNomVisiteur()
-    {
-        return $this->nomVisiteur;
-    }
-
-    /**
-     * Set codeResa
-     *
-     * @param string $codeResa
-     *
-     * @return Ticket
-     */
-    public function setCodeResa($codeResa)
-    {
-        $this->codeResa = $codeResa;
-
-        return $this;
-    }
-
-    /**
-     * Get codeResa
-     *
-     * @return string
-     */
-    public function getCodeResa()
-    {
-        return $this->codeResa;
-    }
-
-    /**
-     * Set reduced
-     *
-     * @param \boulean $reduced
-     *
-     * @return Ticket
-     */
-    public function setReduced(\boulean $reduced)
-    {
-        $this->reduced = $reduced;
-
-        return $this;
-    }
-
-    /**
-     * Get reduced
-     *
-     * @return \boulean
-     */
-    public function getReduced()
-    {
-        return $this->reduced;
-    }
-
-    /**
      * Set ticketType.
      *
-     * @param bool $ticketType
+     * @param string $ticketType
      *
      * @return Ticket
      */
@@ -237,7 +107,7 @@ class Ticket
     /**
      * Get ticketType.
      *
-     * @return bool
+     * @return string
      */
     public function getTicketType()
     {
@@ -247,7 +117,7 @@ class Ticket
     /**
      * Set nbTickets.
      *
-     * @param string $nbTickets
+     * @param integer $nbTickets
      *
      * @return Ticket
      */
@@ -261,7 +131,7 @@ class Ticket
     /**
      * Get nbTickets.
      *
-     * @return string
+     * @return integer
      */
     public function getNbTickets()
     {
@@ -269,74 +139,50 @@ class Ticket
     }
 
     /**
-     * Set prenomVisiteur.
+     * Set mailVisiteur.
      *
-     * @param string $prenomVisiteur
+     * @param string $mailVisiteur
      *
      * @return Ticket
      */
-    public function setPrenomVisiteur($prenomVisiteur)
+    public function setMailVisiteur($mailVisiteur)
     {
-        $this->prenomVisiteur = $prenomVisiteur;
+        $this->mailVisiteur = $mailVisiteur;
 
         return $this;
     }
 
     /**
-     * Get prenomVisiteur.
+     * Get mailVisiteur.
      *
      * @return string
      */
-    public function getPrenomVisiteur()
+    public function getMailVisiteur()
     {
-        return $this->prenomVisiteur;
+        return $this->mailVisiteur;
     }
 
     /**
-     * Set pays.
+     * Set visitor.
      *
-     * @param string $pays
+     * @param \OC\PlatformBundle\Entity\Visitor|null $visitor
      *
      * @return Ticket
      */
-    public function setPays($pays)
+    public function setVisitor(\OC\PlatformBundle\Entity\Visitor $visitor = null)
     {
-        $this->pays = $pays;
+        $this->visitor = $visitor;
 
         return $this;
     }
 
     /**
-     * Get pays.
+     * Get visitor.
      *
-     * @return string
+     * @return \OC\PlatformBundle\Entity\Visitor|null
      */
-    public function getPays()
+    public function getVisitor()
     {
-        return $this->pays;
-    }
-
-    /**
-     * Set birthVisiteur.
-     *
-     * @param \DateTime $birthVisiteur
-     *
-     * @return Ticket
-     */
-    public function setBirthVisiteur($birthVisiteur)
-    {
-        $this->birthVisiteur = $birthVisiteur;
-
-        return $this;
-    }
-
-    /**
-     * Get birthVisiteur.
-     *
-     * @return \DateTime
-     */
-    public function getBirthVisiteur()
-    {
-        return $this->birthVisiteur;
+        return $this->visitor;
     }
 }

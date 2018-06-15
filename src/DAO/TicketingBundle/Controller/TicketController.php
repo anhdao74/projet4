@@ -5,7 +5,9 @@
 namespace DAO\TicketingBundle\Controller;
 
 use DAO\TicketingBundle\Entity\Ticket;
+use DAO\TicketingBundle\Entity\Visitor;
 use DAO\TicketingBundle\Form\TicketType;
+use DAO\TicketingBundle\Form\VisitorType;
 use DAO\TicketingBundle\Form\TicketRegisterType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +24,7 @@ class TicketController extends Controller
 	public function registerDateAction(Request $request)
 	{
 		$ticket = new Ticket();
+		$ticket->setDateResa(new \Datetime());
 		$form = $this->get('form.factory')->create(TicketType::class, $ticket);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
@@ -38,16 +41,17 @@ class TicketController extends Controller
 
 	public function registerVisitorAction (Request $request)
 	{
-		$ticket = new Ticket();
-		$form = $this->get('form.factory')->create(TicketRegisterType::class, $ticket);
+		$visitor = new Visitor();
+		
+		$form = $this->get('form.factory')->create(VisitorType::class, $visitor);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
 		{
 			$em = $this->getDoctrine()->getManager();
-			$em->persist($ticket);
+			$em->persist($visitor);
 			$em->flush();
 
-			return $this->redirectToRoute('dao_ticketing_summery', array('id' => $ticket->getId()));
+			return $this->redirectToRoute('dao_ticketing_summery');
 		}
 
 		return $this->render('DAOTicketingBundle:Ticket:register.html.twig', array('form' => $form->createView()));
@@ -55,18 +59,7 @@ class TicketController extends Controller
 
 	public function registerSummeryAction (Request $request)
 	{
-		$ticket = new Ticket();
-		$form = $this->get('form.factory')->create(TicketRegisterType::class, $ticket);
-
-		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
-		{
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($ticket);
-			$em->flush();
-
-			return $this->redirectToRoute('dao_ticketing_summery', array('id' => $ticket->getId()));
-		}
-
-		return $this->render('DAOTicketingBundle:Ticket:register.html.twig', array('form' => $form->createView()));
+		$content = $this->get('templating')->render('DAOTicketingBundle:Ticket:index.html.twig');
+		return new Response($content);
 	}
 }

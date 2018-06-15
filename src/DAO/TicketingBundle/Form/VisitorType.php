@@ -11,22 +11,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TicketRegisterType extends AbstractType
+class VisitorType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('nom')
-            ->add('prenom')
-            ->add('pays')
-            ->add('birthDate')
-            ->add('reduced')
-            ->add('save', SubmitType::class);
-    }
-
+        $builder->add('nom')->add('prenom')->add('birthDate')->add('pays')->add('email')->add('reduced')->add('save', SubmitType::class);
+    }/**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
@@ -41,5 +36,6 @@ class TicketRegisterType extends AbstractType
     {
         return 'dao_ticketingbundle_visitor';
     }
+
 
 }
