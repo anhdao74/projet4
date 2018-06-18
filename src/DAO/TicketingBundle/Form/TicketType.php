@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TicketType extends AbstractType
@@ -18,13 +19,12 @@ class TicketType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $choices = [
-            'Journée' => 0,
-            'Demi-journée' => 1];
         $builder
             ->add('dateResa',    DateTimeType::class)
             ->add('nbTickets')
-            ->add('ticketType')
+            ->add('ticketType', ChoiceType::class, array('choices' => array(
+                    'Journée' => true,
+                    'Demi-journée' => false,)))
             ->add('mailVisiteur')
             ->add('Suivant', SubmitType::class);
     }/**

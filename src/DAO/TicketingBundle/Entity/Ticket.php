@@ -41,7 +41,7 @@ class Ticket
     private $mailVisiteur;
 
     /**
-    *@ORM\Column(name="ticket_type", type="string")
+    *@ORM\Column(name="ticket_type", type="string", columnDefinition="ENUM('Journée', 'Demi-journée')")
     */
     private $ticketType;
 
@@ -50,11 +50,6 @@ class Ticket
     * @Assert\Range(min=1, max=100)
     */
     private $nbTickets;
-
-    /**
-    * @ORM\OneToOne(targetEntity="DAO\TicketingBundle\Entity\Visitor", cascade={"persist"})
-    */
-    private $visitor;
 
     /**
      * Get id

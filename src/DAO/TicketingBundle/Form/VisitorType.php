@@ -18,7 +18,14 @@ class VisitorType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')->add('prenom')->add('birthDate')->add('pays')->add('email')->add('reduced')->add('save', SubmitType::class);
+        $builder
+            ->add('nom')
+            ->add('prenom')
+            ->add('birthDate',   DateTimeType::class)
+            ->add('pays')
+            ->add('email')
+            ->add('reduced')
+            ->add('save', SubmitType::class);
     }/**
      * {@inheritdoc}
      */
