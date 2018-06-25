@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VisitorType extends AbstractType
@@ -23,7 +24,6 @@ class VisitorType extends AbstractType
             ->add('prenom')
             ->add('birthDate',   DateTimeType::class)
             ->add('pays')
-            ->add('email')
             ->add('reduced')
             ->add('save', SubmitType::class);
     }/**

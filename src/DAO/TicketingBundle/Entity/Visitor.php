@@ -57,13 +57,6 @@ class Visitor
      */
     private $pays;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Email", type="string", length=255)
-     * @Assert\Email()
-     */
-    private $email;
 
     /**
      * @var boolean
@@ -179,30 +172,6 @@ class Visitor
     }
 
     /**
-     * Set email.
-     *
-     * @param string $email
-     *
-     * @return Visitor
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email.
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
      * Set reduced.
      *
      * @param bool $reduced
@@ -224,5 +193,12 @@ class Visitor
     public function getReduced()
     {
         return $this->reduced;
+    }
+
+    public function addVisitor()
+    {
+        $this->visitors[] = $visitor;
+
+        return $this;
     }
 }

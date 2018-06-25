@@ -52,6 +52,14 @@ class Ticket
     private $nbTickets;
 
     /**
+    * @ORM\ManyToMany(targetEntity="DAO\TicketingBundle\Entity\Visitor", mappedBy="advert")
+    * @ORM\JoinTable(name="dao_ticket_visitor")
+    * @Assert\Valid()
+    
+    */
+    private $visitors;
+
+    /**
      * Get id
      *
      * @return int
@@ -156,28 +164,51 @@ class Ticket
     {
         return $this->mailVisiteur;
     }
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->visitors = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
-     * Set visitor.
+     * Add visitor.
      *
-     * @param \OC\PlatformBundle\Entity\Visitor|null $visitor
+     * @param \DAO\TicketingBundle\Entity\Visitor $visitor
      *
      * @return Ticket
      */
-    public function setVisitor(\OC\PlatformBundle\Entity\Visitor $visitor = null)
+    public function addVisitor(\DAO\TicketingBundle\Entity\Visitor $visitor)
     {
-        $this->visitor = $visitor;
+        $this->visitors[] = $visitor;
+
+        // On lie l'annonce à la candidature
+        $visitor->setTicket($this);
 
         return $this;
     }
 
     /**
-     * Get visitor.
+     * Remove visitor.
      *
-     * @return \OC\PlatformBundle\Entity\Visitor|null
+     * @param \DAO\TicketingBundle\Entity\Visitor $visitor
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function getVisitor()
+    public function removeVisitor(\DAO\TicketingBundle\Entity\Visitor $visitor)
     {
-        return $this->visitor;
+        return $this->visitors->removeElement($visitor);
+    }
+
+    /**
+     * Get visitors.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVisitors()
+    {
+        return $this->visitors;
     }
 }

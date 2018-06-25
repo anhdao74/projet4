@@ -21,6 +21,7 @@ class Visitor
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\ManyToOne(targetEntity="DAO\TicketingBundle\Entity\Ticket", cascade={"persist"})
      */
     private $id;
 
@@ -41,10 +42,10 @@ class Visitor
     private $prenom;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="birthDate", type="datetime")
-     * @Assert\DateTime()
+     * @ORM\Column(name="birthDate", type="date")
+     * @Assert\Date()
      */
     private $birthDate;
 
@@ -56,13 +57,6 @@ class Visitor
      */
     private $pays;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Email", type="string", length=255)
-     * @Assert\Email()
-     */
-    private $email;
 
     /**
      * @var boolean
@@ -70,7 +64,6 @@ class Visitor
      * @ORM\Column(name="reduced", type="boolean")
      */
     private $reduced;
-
 
     /**
      * Get id.
@@ -133,7 +126,7 @@ class Visitor
     /**
      * Set birthDate.
      *
-     * @param \DateTime $birthDate
+     * @param \Date $birthDate
      *
      * @return Visitor
      */
@@ -147,7 +140,7 @@ class Visitor
     /**
      * Get birthDate.
      *
-     * @return \DateTime
+     * @return \Date
      */
     public function getBirthDate()
     {
@@ -179,26 +172,27 @@ class Visitor
     }
 
     /**
-     * Set email.
+     * Set reduced.
      *
-     * @param string $email
+     * @param bool $reduced
      *
      * @return Visitor
      */
-    public function setEmail($email)
+    public function setReduced($reduced)
     {
-        $this->email = $email;
+        $this->reduced = $reduced;
 
         return $this;
     }
 
     /**
-     * Get email.
+     * Get reduced.
      *
-     * @return string
+     * @return bool
      */
-    public function getEmail()
+    public function getReduced()
     {
-        return $this->email;
+        return $this->reduced;
     }
+
 }

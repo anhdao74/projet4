@@ -10,6 +10,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use DAO\TicketingBundle\Form\VisitorType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TicketType extends AbstractType
@@ -25,8 +28,11 @@ class TicketType extends AbstractType
             ->add('ticketType', ChoiceType::class, array('choices' => array(
                     'Journée' => true,
                     'Demi-journée' => false,)))
-            ->add('mailVisiteur')
-            ->add('Suivant', SubmitType::class);
+            ->add('mailVisiteur',    EmailType::class)
+            ->add('Suivant', SubmitType::class)
+            ->add('visitors', CollectionType::class, array('entry_type' => VisitorType::class,
+                'allow_add'    => true,
+                'allow_delete' => true));
     }/**
      * {@inheritdoc}
      */

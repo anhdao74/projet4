@@ -23,9 +23,11 @@ class TicketController extends Controller
 
 	public function registerDateAction( Request $request)
 	{
-		
+		$visitor = new Visitor;
+		$form = $this->get('form.factory')->create(VisitorType::class, $visitor);
 		$ticket = new Ticket;
 		$ticket->setDateResa(new \Datetime());
+
 		$form = $this->get('form.factory')->create(TicketType::class, $ticket);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
@@ -34,7 +36,8 @@ class TicketController extends Controller
 			$em->persist($ticket);
 			$em->flush();
 
-			return $this->redirectToRoute('dao_ticketing_register', array('id' => $ticket->getId(), 'mailVisiteur' => $ticket->getMailVisiteur()));
+			//return $this->redirectToRoute('dao_ticketing_register', array('id' => $ticket->getId()));
+			return $this->registerVisitorAction($request);
 		}
 
 		return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
@@ -42,8 +45,10 @@ class TicketController extends Controller
 
 	public function registerVisitorAction (Request $request)
 	{	
+
 		$ticket = new Ticket();
-		$mailVisiteur = $request->query->get('mailVisiteur');
+		$req = $request->request->all();
+		//var_dump($req["dao_ticketingbundle_ticket"]["mailVisiteur"]);exit;
 
     	$visitor = new Visitor();
 		
@@ -57,10 +62,14 @@ class TicketController extends Controller
 
 			return $this->redirectToRoute('dao_ticketing_summery');
 		}
-
+		
 		return $this->render('DAOTicketingBundle:Ticket:register.html.twig', array(
 				'form' => $form->createView(), 
-				'mailVisiteur' => $mailVisiteur,));
+				'mailVisiteur' => $req["dao_ticketingbundle_ticket"]["mailVisiteur"],
+				'dateResa' => $req["dao_ticketingbundle_ticket"]["dateResa"],
+				'ticketType' => $req["dao_ticketingbundle_ticket"]["ticketType"],
+				'nbTickets' => $req["dao_ticketingbundle_ticket"]["nbTickets"],));
+
 	}
 
 	public function registerSummeryAction (Request $request)
