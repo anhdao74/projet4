@@ -55,7 +55,6 @@ class Ticket
     * @ORM\ManyToMany(targetEntity="DAO\TicketingBundle\Entity\Visitor", cascade={"persist"})
     * @ORM\JoinTable(name="dao_ticket_visitor")
     * @Assert\Valid()
-    
     */
     private $visitors;
 

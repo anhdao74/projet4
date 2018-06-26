@@ -23,7 +23,9 @@
   Visiteur {{ loop.index }} sur {{ loop.length }} : 
  {{ include("DAOTicketingBundle:Ticket:form1.html.twig") }}
   
-{% endfor%}
+ {% endfor%}
+
+ {{ form_widget(form.enregistrer, {'attr': {'class': 'btn btn-primary'}}) }}
 
 
 

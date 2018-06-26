@@ -51,6 +51,7 @@ class TicketController extends Controller
 		//var_dump($req["dao_ticketingbundle_ticket"]["mailVisiteur"]);exit;
 
     	$visitor = new Visitor();
+
 		
 		$form = $this->get('form.factory')->create(VisitorType::class, $visitor);
 
@@ -60,7 +61,8 @@ class TicketController extends Controller
 			$em->persist($visitor);
 			$em->flush();
 
-			return $this->redirectToRoute('dao_ticketing_summery');
+			//return $this->redirectToRoute('dao_ticketing_summery');
+			return $this->registerSummeryAction($request);
 		}
 		
 		return $this->render('DAOTicketingBundle:Ticket:register.html.twig', array(
