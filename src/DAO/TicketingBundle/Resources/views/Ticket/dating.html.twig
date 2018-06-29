@@ -18,7 +18,8 @@
   {{ include("DAOTicketingBundle:Ticket:form.html.twig") }}
 
   
-
+  {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
+  {{ form_widget(form.Suivant, {'attr': {'class': 'btn btn-primary'}}) }}
   
  
   

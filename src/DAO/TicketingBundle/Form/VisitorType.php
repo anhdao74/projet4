@@ -25,7 +25,6 @@ class VisitorType extends AbstractType
             ->add('birthDate',   DateTimeType::class)
             ->add('pays')
             ->add('reduced')
-            ->add('suivant', SubmitType::class)
             ->add('enregistrer', SubmitType::class);
     }/**
      * {@inheritdoc}

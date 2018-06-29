@@ -21,7 +21,6 @@ class Visitor
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\ManyToOne(targetEntity="DAO\TicketingBundle\Entity\Ticket", cascade={"persist"})
      */
     private $id;
 
@@ -64,6 +63,13 @@ class Visitor
      * @ORM\Column(name="reduced", type="boolean")
      */
     private $reduced;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="DAO\TicketingBundle\Entity\Ticket")
+    * @ORM\JoinColumn(nullable=false)
+    */
+    private $ticket;
+
 
     /**
      * Get id.
@@ -200,5 +206,29 @@ class Visitor
         $this->visitors[] = $visitor;
 
         return $this;
+    }
+
+    /**
+     * Set ticket.
+     *
+     * @param \DAO\TicketingBundle\Entity\Ticket $ticket
+     *
+     * @return Visitor
+     */
+    public function setTicket(\DAO\TicketingBundle\Entity\Ticket $ticket)
+    {
+        $this->ticket = $ticket;
+
+        return $this;
+    }
+
+    /**
+     * Get ticket.
+     *
+     * @return \DAO\TicketingBundle\Entity\Ticket
+     */
+    public function getTicket()
+    {
+        return $this->ticket;
     }
 }

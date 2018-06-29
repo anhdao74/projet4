@@ -29,9 +29,6 @@ class TicketType extends AbstractType
                     'Journée' => true,
                     'Demi-journée' => false,)))
             ->add('mailVisiteur',    EmailType::class)
-            ->add('visitors', CollectionType::class, array('entry_type' => VisitorType::class,
-                'allow_add'    => true,
-                'allow_delete' => true))
             ->add('Suivant', SubmitType::class)
             ;
     }/**

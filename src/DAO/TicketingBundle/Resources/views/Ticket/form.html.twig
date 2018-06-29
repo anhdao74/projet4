@@ -45,7 +45,7 @@
     </div>
   </div>
 
-   {{ form_row(form.visitors) }}
+  
 
   {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
   {{ form_widget(form.Suivant, {'attr': {'class': 'btn btn-primary'}}) }}
@@ -54,6 +54,8 @@
 
 
   {{ form_rest(form) }}
+
+
 
   {# Fermeture de la balise <form> du formulaire HTML #}
   {{ form_end(form) }}

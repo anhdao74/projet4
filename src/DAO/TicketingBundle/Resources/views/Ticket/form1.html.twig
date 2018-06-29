@@ -1,73 +1,79 @@
 {# src/DAO/TicketingBundle/Resources/views/Ticket/form1.html.twig #}
 
-<div class="form-group">
-  <label class="col-sm-2 control-label required"></label>
-  <div class="col-sm-10">
-    <div id="ticket_visitors___name__">
-      <div class="form-group">
-        <label class="col-sm-2 control-label required" for="ticket_visitors___name___nom">Nom</label>
-        <div class="col-sm-10">
-          <input type="text" id="ticket_visitors___name___nom" name="ticket[visitors][__name__][nom]" required="required" class="form-control" />
+<div id="formulaire_visiteur"></div>
+<form action="register" method="post">  
+  
+        <div class="form-group">
+          <label class="col-sm-2 control-label required" for="ticket_visitors___name___nom">Nom</label>
+          <div class="col-sm-10">
+            <input type="text" id="ticket_visitors___name___nom" name="ticket[visitors][__name__][nom]" required="required" class="form-control" />
+          </div>
+        </div>
+      
+
+  
+        <div class="form-group">
+          <label class="col-sm-2 control-label required" for="ticket_visitors___name___prenom">Prenom</label>
+          <div class="col-sm-10">
+            <input type="text" id="ticket_visitors___name___prenom" name="ticket[visitors][__name__][prenom]" required="required" class="form-control" />
+          </div>
+        </div>
+
+
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label required" for="ticket_visitors___name___pays">Pays</label>
+          <div class="col-sm-10">
+            <input type="text" id="ticket_visitors___name___pays" name="ticket[visitors][__name__][pays]" required="required" class="form-control" />
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label required" for="ticket_visitors___name___birthDate">Date de naissance</label>
+          <div class="col-sm-10">
+            <input type="date" id="ticket_visitors___name___birthDate" name="ticket[visitors][__name__][birthDate]" required="required" class="form-control" />
+          </div>
+        </div>
+  
+
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label required" for="ticket_visitors___name___reduced">Tarif réduit</label>
+          <div class="col-sm-10">
+            <input type="radio" id="ticket_visitors___name___reduced" name="ticket[visitors][__name__][reduced]" class="form-control" />
+          </div>
+        </div>
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label required"></label>
+    <div class="col-sm-10">
+      <div id="ticket_visitors___name__">
+        <div class="form-group">
+          <button class="col-sm-2 control-label required" for="ticket_visitors___name___enregistrer">Enregistrer</button>
         </div>
       </div>
     </div>
   </div>
-</div>
+</form>
 
-<div class="form-group">
-  <label class="col-sm-2 control-label required"></label>
-  <div class="col-sm-10">
-    <div id="ticket_visitors___name__">
-      <div class="form-group">
-        <label class="col-sm-2 control-label required" for="ticket_visitors___name___prenom">Prenom</label>
-        <div class="col-sm-10">
-          <input type="text" id="ticket_visitors___name___prenom" name="ticket[visitors][__name__][prenom]" required="required" class="form-control" />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+  $(function() {
+    postVisitor();
+      
+    $('#envoyer').click(function() {
+        var nom = $('#nom').val();
+        var message = $('#message').val();
+        $.post('chat.php', {
+            'nom': nom,
+            'message': message
+        }, afficheConversation);
+    });
 
-<div class="form-group">
-  <label class="col-sm-2 control-label required"></label>
-  <div class="col-sm-10">
-    <div id="ticket_visitors___name__">
-      <div class="form-group">
-        <label class="col-sm-2 control-label required" for="ticket_visitors___name___pays">Pays</label>
-        <div class="col-sm-10">
-          <input type="text" id="ticket_visitors___name___pays" name="ticket[visitors][__name__][pays]" required="required" class="form-control" />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="form-group">
-  <label class="col-sm-2 control-label required"></label>
-  <div class="col-sm-10">
-    <div id="ticket_visitors___name__">
-      <div class="form-group">
-        <label class="col-sm-2 control-label required" for="ticket_visitors___name___birthDate">Date de naissance</label>
-        <div class="col-sm-10">
-          <input type="date" id="ticket_visitors___name___birthDate" name="ticket[visitors][__name__][birthDate]" required="required" class="form-control" />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="form-group">
-  <label class="col-sm-2 control-label required"></label>
-  <div class="col-sm-10">
-    <div id="ticket_visitors___name__">
-      <div class="form-group">
-        <label class="col-sm-2 control-label required" for="ticket_visitors___name___reduced">Tarif réduit</label>
-        <div class="col-sm-10">
-          <input type="radio" id="ticket_visitors___name___reduced" name="ticket[visitors][__name__][reduced]" required="required" class="form-control" />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
+    function afficheConversation() {
+      $('#conversation').load('ac.htm');
+      $('#message').val('');
+      $('#message').focus();
+    }
+      
+    setInterval(afficheConversation, 4000);
+  });
