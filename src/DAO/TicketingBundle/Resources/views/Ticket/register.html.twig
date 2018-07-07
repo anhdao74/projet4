@@ -13,17 +13,26 @@
 
 {% block daoticketing_body %}
 
-  Commande en cours pour : {{ mailVisiteur }}
+  
+
+   
+ Commande en cours pour : {{ "ticket.mailVisiteur" }}
+
 
   <h2>Veuillez renseigner les informations des visiteurs :</h2>
 
+{% for i in 1..ticket.nbTickets %}
+  
+  Visiteur {{ loop.index }} sur {{ loop.length }} :
 
- {% for i in 1..nbTickets %}
-  
-  Visiteur {{ loop.index }} sur {{ loop.length }} : 
+
  {{ include("DAOTicketingBundle:Ticket:form1.html.twig") }}
+
+{% endfor %} 
+ 
+ 
   
- {% endfor%}
+
 
  
 

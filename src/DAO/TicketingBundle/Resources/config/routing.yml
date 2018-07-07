@@ -7,8 +7,9 @@ dao_ticketing_date:
     defaults: { _controller: DAOTicketingBundle:Ticket:registerDate }
 
 dao_ticketing_register:
-    path:     /register
+    path:     /register/{id}/{nbTickets}
     defaults: { _controller: DAOTicketingBundle:Ticket:registerVisitor }
+    
 
 dao_ticketing_summery:
     path:     /summery

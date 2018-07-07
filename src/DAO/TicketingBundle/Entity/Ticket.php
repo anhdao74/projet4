@@ -52,6 +52,14 @@ class Ticket
     private $nbTickets;
 
     /**
+    * @var int
+    *
+    * @ORM\OneToMany(targetEntity="DAO\TicketingBundle\Entity\Visitor", mappedBy="ticket", cascade={"persist"})
+    * @Assert\Valid()
+    */
+    private $visitors;
+    
+    /**
      * Get id
      *
      * @return int
@@ -155,5 +163,54 @@ class Ticket
     public function getMailVisiteur()
     {
         return $this->mailVisiteur;
+    }
+
+    public function __toString()
+    {
+        return $this->getMailVisiteur();
+    }
+        /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->visitors = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add visitor.
+     *
+     * @param \DAO\TicketingBundle\Entity\Visitor $visitor
+     *
+     * @return Ticket
+     */
+    public function addVisitor(\DAO\TicketingBundle\Entity\Visitor $visitor)
+    {
+        $this->visitors[] = $visitor;
+        $visitor->setTicket($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove visitor.
+     *
+     * @param \DAO\TicketingBundle\Entity\Visitor $visitor
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeVisitor(\DAO\TicketingBundle\Entity\Visitor $visitor)
+    {
+        return $this->visitors->removeElement($visitor);
+    }
+
+    /**
+     * Get visitors.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVisitors()
+    {
+        return $this->visitors;
     }
 }

@@ -1,0 +1,16 @@
+{% extends 'DAOTicketingBundle:Ticket:form1.html.twig' %}
+{% block body %}
+
+
+{{ form_label(form.visitors) }}
+{{ form_errors(form.visitors) }}
+
+<ul>
+{% for visitorField in form.visitors %}
+    <li>
+        {{ form_errors(visitorField) }}
+        {{ form_widget(visitorField) }}
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}

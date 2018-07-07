@@ -66,7 +66,7 @@ class Visitor
 
     /**
     * @ORM\ManyToOne(targetEntity="DAO\TicketingBundle\Entity\Ticket")
-    * @ORM\JoinColumn(nullable=false)
+    * @ORM\JoinColumn(name= "ticket_id", referencedColumnName="id", nullable=true)
     */
     private $ticket;
 
@@ -206,5 +206,35 @@ class Visitor
         $this->visitors[] = $visitor;
 
         return $this;
+    }
+
+
+    public function __toString()
+    {
+        return $this->ticket = $ticket;
+    }
+
+    /**
+     * Set ticket.
+     *
+     * @param \DAO\TicketingBundle\Entity\Ticket $ticket
+     *
+     * @return Visitor
+     */
+    public function setTicket(\DAO\TicketingBundle\Entity\Ticket $ticket)
+    {
+        $this->ticket = $ticket;
+
+        return $this;
+    }
+
+    /**
+     * Get ticket.
+     *
+     * @return \DAO\TicketingBundle\Entity\Ticket
+     */
+    public function getTicket()
+    {
+        return $this->ticket;
     }
 }

@@ -65,8 +65,8 @@ class Visitor
     private $reduced;
 
     /**
-    * @ORM\ManyToOne(targetEntity="DAO\TicketingBundle\Entity\Ticket")
-    * @ORM\JoinColumn(nullable=false)
+    * @ORM\ManyToOne(targetEntity="DAO\TicketingBundle\Entity\Ticket", inversedBy="visitors")
+    * @ORM\JoinColumn(name= "ticket_id", referencedColumnName="id", nullable=true)
     */
     private $ticket;
 
@@ -206,6 +206,12 @@ class Visitor
         $this->visitors[] = $visitor;
 
         return $this;
+    }
+
+
+    public function __toString()
+    {
+        return $this->ticket = $ticket;
     }
 
     /**
