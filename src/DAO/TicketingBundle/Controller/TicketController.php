@@ -57,25 +57,19 @@ class TicketController extends Controller
 		$em = $this->getDoctrine()->getManager();
     	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
 		//$ticket = new Ticket;
-		//$req = $request->request->all();
-		//var_dump($ticket);
+		$req = $request->request->all();
+		//var_dump($req);
+
 		
-		//for($i=0; $i < $nbTickets; $i++) { 
-    		$this->visitors = $ticket->getNbTickets();
-    		$visitor = new Visitor();
-
-    		//$originalVisitors = new ArrayCollection();
-
-			//foreach ($ticket->getNbTickets() as $visitor) {
-				//$originalVisitors->add($visitor);
-			//}
+    		$visitor = new Visitor();			
     		
-			$form = $this->get('form.factory')->create(VisitorType::class, $visitor);//}
+			$form = $this->get('form.factory')->create(VisitorType::class, $visitor);
+
 		//var_dump($form->handleRequest($request)->isValid());
 		//var_dump($req);
 		//var_dump($form->getErrors());
 		
-			var_dump($visitor);
+			
 		//var_dump($request->isMethod('POST'));
 		//var_dump($form->handleRequest($request)->isValid());
 		//
@@ -90,22 +84,48 @@ class TicketController extends Controller
             // enregistrement en base de données
             //$this->em->persist($order);
             //$this->em->flush();
-
-		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
-		{
-			$visitor->setTicket($ticket);
-			//$groupes = $form['$i']->getData()["groupes"];
-			$em = $this->getDoctrine()->getManager();	
-			//foreach ($groupes as $groupe) {
-				$em->persist($visitor);//}
-			$em->flush();
-
-			return $this->redirectToRoute('dao_ticketing_summery');
-			//return $this->registerSummeryAction($request);
 			
-		}
-		return $this->render('DAOTicketingBundle:Ticket:register.html.twig', array(
-				'form' => $form->createView(), 
+			//var_dump($value->handleRequest($request)->isValid());
+			//var_dump($value->getData());
+				if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
+				{
+					$visitor->setTicket($ticket);
+					//$groupes = $form['$i']->getData()["groupes"];
+					$em = $this->getDoctrine()->getManager();	
+					//foreach ($groupes as $groupe) {
+					$em->persist($visitor);//}
+					$em->flush();
+
+					/*incrementer index statique*/
+					for ($i = $nbTickets; $i>=0; $i--){
+					//var_dump($i);
+						if ($i > 0){
+							return $this->render('DAOTicketingBundle:Ticket:register.html.twig', array( 
+								'form' => $form->createView(),
+								'ticket' => $ticket,
+								));
+							$visitor->setTicket($ticket);
+							//$groupes = $form['$i']->getData()["groupes"];
+							$em = $this->getDoctrine()->getManager();	
+							//foreach ($groupes as $groupe) {
+							$em->persist($visitor);//}
+							$em->flush();
+							//$nbTickets--;
+							break;
+						}
+						else{
+							return $this->redirectToRoute('dao_ticketing_summery');
+						}
+					}
+					//return $this->registerSummeryAction($request);
+					
+					return $this->redirectToRoute('dao_ticketing_summery');
+					
+					
+				}
+		
+		return $this->render('DAOTicketingBundle:Ticket:register.html.twig', array( 
+				'form' => $form->createView(),
 				'ticket' => $ticket,
 				));
 	}
