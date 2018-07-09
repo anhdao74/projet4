@@ -25,7 +25,7 @@ class Ticket
     private $id;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
      * @ORM\Column(name="date_resa", type="date")
      * @Assert\Date()
@@ -44,6 +44,13 @@ class Ticket
     *@ORM\Column(name="ticket_type", type="string", columnDefinition="ENUM('Journée', 'Demi-journée')")
     */
     private $ticketType;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="resaCode", type="string", length=255, unique=true)
+    */
+    private $resaCode;
 
     /**
     *@ORM\Column(name="nb_tickets", type="integer")
@@ -212,5 +219,29 @@ class Ticket
     public function getVisitors()
     {
         return $this->visitors;
+    }
+
+    /**
+     * Set resaCode.
+     *
+     * @param string $resaCode
+     *
+     * @return Ticket
+     */
+    public function setResaCode($resaCode)
+    {
+        $this->resaCode = $resaCode;
+
+        return $this;
+    }
+
+    /**
+     * Get resaCode.
+     *
+     * @return string
+     */
+    public function getResaCode()
+    {
+        return $this->resaCode;
     }
 }

@@ -64,6 +64,13 @@ class Visitor
      */
     private $reduced;
 
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="prix", type="decimal", precision=10, scale=2)
+     */
+    private $prix;
+
     /**
     * @ORM\ManyToOne(targetEntity="DAO\TicketingBundle\Entity\Ticket", inversedBy="visitors")
     * @ORM\JoinColumn(name= "ticket_id", referencedColumnName="id", nullable=true)
@@ -236,5 +243,39 @@ class Visitor
     public function getTicket()
     {
         return $this->ticket;
+    }
+
+    /**
+     * Récupére l'age du visiteur
+     *
+     * @return int
+     */
+    public function getAge()
+    {
+        return $this->getBirthDate()->diff(new \DateTime())->y;
+    }
+
+    /**
+     * Set prix.
+     *
+     * @param string $prix
+     *
+     * @return Visitor
+     */
+    public function setPrix($prix)
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+    /**
+     * Get prix.
+     *
+     * @return string
+     */
+    public function getPrix()
+    {
+        return $this->prix;
     }
 }

@@ -6,6 +6,7 @@ namespace DAO\TicketingBundle\Controller;
 
 use DAO\TicketingBundle\Entity\Ticket;
 use DAO\TicketingBundle\Entity\Visitor;
+use DAO\TicketingBundle\Entity\Rate;
 use DAO\TicketingBundle\Form\TicketType;
 use DAO\TicketingBundle\Form\VisitorType;
 use DAO\TicketingBundle\Form\TicketRegisterType;
@@ -27,15 +28,19 @@ class TicketController extends Controller
 	{
 		
 		$ticket = new Ticket;
-		$ticket->setDateResa(new \Datetime());
+		$ticket->setDateResa(new \DateTime());
 
 		$form = $this->get('form.factory')->create(TicketType::class, $ticket);
 		$form->handleRequest($request);
 
-
+		
 		if ($form->isSubmitted() && $form->isValid())
 		{
 			$em = $this->getDoctrine()->getManager();
+			$code1 = $ticket->getId();
+			$code2 = $ticket->getDateResa();
+			
+			$ticket->setResaCode('louvre1') ;
 			$em->persist($ticket);
 
 			$em->flush();
@@ -53,75 +58,62 @@ class TicketController extends Controller
 
 	public function registerVisitorAction ($id, $nbTickets, Request $request)
 	{	
-
 		$em = $this->getDoctrine()->getManager();
     	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
 		//$ticket = new Ticket;
 		$req = $request->request->all();
-		//var_dump($req);
-
-		
+		//var_dump($req);		
     		$visitor = new Visitor();			
     		
 			$form = $this->get('form.factory')->create(VisitorType::class, $visitor);
 
-		//var_dump($form->handleRequest($request)->isValid());
-		//var_dump($req);
-		//var_dump($form->getErrors());
-		
-			
-		//var_dump($request->isMethod('POST'));
-		//var_dump($form->handleRequest($request)->isValid());
-		//
-		
-		//$id = $request->query->get('id');
-
-		// on lie les visiteurs à la commande
-            //foreach($this->visitors as $visitor) {
-                //$visitor->setTicketOrder($order);
-                //$this->em->persist($visitor);
-            //}
-            // enregistrement en base de données
-            //$this->em->persist($order);
-            //$this->em->flush();
-			
-			//var_dump($value->handleRequest($request)->isValid());
-			//var_dump($value->getData());
 				if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
 				{
 					$visitor->setTicket($ticket);
 					//$groupes = $form['$i']->getData()["groupes"];
+					$age = $visitor->getAge();
+
+					//Détermine le tarif du billet
+					if($age < 4)
+					{
+						$priceType = '0';
+					}
+						elseif($age >= 4 && $age < 12)
+						{
+							$priceType = '8';
+						}
+						elseif ($age >=60) 
+						{
+							$priceType = '12';
+						}
+					else
+					{
+						$priceType = '16';
+					}
+					$visitor->setPrix($priceType);
+
 					$em = $this->getDoctrine()->getManager();	
 					//foreach ($groupes as $groupe) {
 					$em->persist($visitor);//}
 					$em->flush();
 
 					/*incrementer index statique*/
-					for ($i = $nbTickets; $i>=0; $i--){
-					//var_dump($i);
-						if ($i > 0){
+					for ($i = $nbTickets; $i<1; $i--)
+					{
+					var_dump($i);
+						if ($i > 0)
+						{
 							return $this->render('DAOTicketingBundle:Ticket:register.html.twig', array( 
 								'form' => $form->createView(),
 								'ticket' => $ticket,
 								));
-							$visitor->setTicket($ticket);
-							//$groupes = $form['$i']->getData()["groupes"];
-							$em = $this->getDoctrine()->getManager();	
-							//foreach ($groupes as $groupe) {
-							$em->persist($visitor);//}
-							$em->flush();
-							//$nbTickets--;
+							$nbTickets--;
 							break;
-						}
-						else{
-							return $this->redirectToRoute('dao_ticketing_summery');
 						}
 					}
 					//return $this->registerSummeryAction($request);
-					
-					return $this->redirectToRoute('dao_ticketing_summery');
-					
-					
+					return $this->redirectToRoute('dao_ticketing_summery', array(
+								'id' => $visitor->getId()));					
 				}
 		
 		return $this->render('DAOTicketingBundle:Ticket:register.html.twig', array( 
@@ -130,14 +122,16 @@ class TicketController extends Controller
 				));
 	}
 
-	public function registerSummeryAction (Request $request)
+	public function registerSummeryAction ($id, Request $request)
 	{
+	$em = $this->getDoctrine()->getManager();
+    $visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
+	//var_dump($visitor);
+	$req = $request->request->all();
+
+		//$content = $this->get('templating')->render('DAOTicketingBundle:Ticket:recapitulatif.html.twig');
 		
-		$req = $request->request->all();
-
-	//var_dump($req);
-
-		$content = $this->get('templating')->render('DAOTicketingBundle:Ticket:index.html.twig');
-		return new Response($content);
+		return $this->render('DAOTicketingBundle:Ticket:recapitulatif.html.twig', array(
+			'visitor' => $visitor));
 	}
 }

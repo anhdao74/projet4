@@ -12,5 +12,5 @@ dao_ticketing_register:
     
 
 dao_ticketing_summery:
-    path:     /summery
+    path:     /summery/{id}
     defaults: { _controller: DAOTicketingBundle:Ticket:registerSummery }

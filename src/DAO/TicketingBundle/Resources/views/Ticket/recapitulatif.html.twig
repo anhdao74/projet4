@@ -1,0 +1,36 @@
+{# src/DAO/TicketingBundle/Resources/views/Ticket/recapitulatif.html.twig #}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Billeterie du Louvre</title>
+  </head>
+  <body>
+    <img src = "logoLouvre.jpg" alt = "logo"/>
+    <h1>Billeterie du Louvre</h1>
+
+{% block daoticketing_body %}
+
+    <h2>Récapitulatif de votre commande</h2>
+
+    <table>
+    <tr>
+      <th><p>Nom</p></th>
+      <th><p>Prénom</p></th>
+      <th><p>Date de naissance</p></th>
+      <th><p>Pays</p></th>
+      <th><p>Tarif</p></th>
+      <th><p>Corriger</p></th>
+    </tr>
+
+    <tr>
+      <td> {{ visitor.nom }} </td>
+      <td>{{visitor.prenom}}</td>
+      <td>{{visitor.birthDate|date('d/m/Y') }}</td>
+      <td>{{visitor.pays}}</td>
+      <td>{{visitor.prix}} €</td>
+      <td><input type= "submit" value="Corriger"></td>
+
+    </table>
+
+{% endblock %}
