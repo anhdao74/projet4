@@ -9,6 +9,8 @@
     <img src = "logoLouvre.jpg" alt = "logo"/>
     <h1>Billeterie du Louvre</h1>
 
+<body>
+
 {% block daoticketing_body %}
 
     <h2>Récapitulatif de votre commande</h2>
@@ -29,8 +31,18 @@
       <td>{{visitor.birthDate|date('d/m/Y') }}</td>
       <td>{{visitor.pays}}</td>
       <td>{{visitor.prix}} €</td>
-      <td><input type= "submit" value="Corriger"></td>
+      <td><input type= "submit" value="Corriger" action=""></td>
+    </tr>
 
     </table>
+      <p>Le total de votre commande est de {{visitor.prix}} €</p>
+    
+    
 
+    <a href="{{ path('dao_ticketing_home_payment', {'id': visitor.id}) }}" class="btn btn-danger">
+      <i class="glyphicon glyphicon-trash"></i>
+      Suivant
+    </a>
+ 
 {% endblock %}
+</body>

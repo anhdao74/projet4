@@ -1,4 +1,6 @@
 services:
-#    dao_ticketing.example:
-#        class: DAO\TicketingBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    dao_ticketing.mail:
+        class: DAO\TicketingBundle\Mailer\Mailer
+        arguments: ["@mailer", "@templating"]
+
+

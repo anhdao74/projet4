@@ -14,3 +14,15 @@ dao_ticketing_register:
 dao_ticketing_summery:
     path:     /summery/{id}
     defaults: { _controller: DAOTicketingBundle:Ticket:registerSummery }
+
+dao_ticketing_home_payment:
+    path:     /home_payment/{id}
+    defaults: { _controller: DAOTicketingBundle:Ticket:paymentIndex }
+
+dao_ticketing_payment:
+    path:     /payment/{id}
+    defaults: { _controller: DAOTicketingBundle:Ticket:payment }
+
+dao_ticketing_confirming:
+    path:     /confirming
+    defaults: { _controller: DAOTicketingBundle:Ticket:paymentConfirming }

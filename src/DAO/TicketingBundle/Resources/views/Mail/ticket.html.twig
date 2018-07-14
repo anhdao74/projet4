@@ -1,0 +1,46 @@
+{# src/DAO/TicketingBundle/Resources/views/Mail/ticket.html.twig #}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Billeterie du Louvre</title>
+  </head>
+  <body>
+    <img src = "logoLouvre.jpg" alt = "logo"/>
+    <h1>Billeterie du Louvre</h1>
+
+{% block daoticketing_body %}
+<table class="body-wrap">
+    <tr>
+        <td></td>
+        <td class="container" bgcolor="#FFFFFF">
+            <div class="content">
+                <table>
+                    <tr>
+                        <td>
+                         
+                            <table class="summary">
+                                <tr>
+                                    <th><p>Date de visite</p></th>
+                                    <th><p>Nom</p></th>
+                                    <th><p>Tarif</p></th>                                    
+                                    <th><p>Code réservation</p></th>
+                                </tr>
+
+                                <tr>
+                                    <td> {{ ticket.getDateResa|date('d/m/Y') }} </td>
+                                    <td><strong> {{ visitor.getNom|capitalize  }} {{ visitor.getPrenom|capitalize  }}</td>
+                                    <td class="right"><strong class="pull-right">{{ visitor.getPrix }}€</strong></td>
+                                    <td> {{ ticket.getResaCode }} </td>
+                                </tr>
+                            </table>
+                            <hr />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+        <td></td>
+    </tr>
+</table>
+{% endblock %}

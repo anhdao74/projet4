@@ -157,7 +157,7 @@ class Ticket
      */
     public function setMailVisiteur($mailVisiteur)
     {
-        $this->mailVisiteur = $mailVisiteur;
+        $this->mailVisiteur = strtolower($mailVisiteur);
 
         return $this;
     }
@@ -172,10 +172,10 @@ class Ticket
         return $this->mailVisiteur;
     }
 
-    public function __toString()
+    /*public function __toString()
     {
         return $this->getMailVisiteur();
-    }
+    }*/
         /**
      * Constructor
      */
