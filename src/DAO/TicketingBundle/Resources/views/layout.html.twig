@@ -1,20 +1,50 @@
 {# src/DAO/TicketingBundle/Resources/views/layout.html.twig #}
 
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <title>{% block title %}Billeterie du Louvre{% endblock %}</title>
+     </section>
+      <section class="row">
+      <div class="col-sm-12"><p class="text-center"><img src="{{ asset('Images/logoLouvre.jpg') }}" alt="logo"/></div>
+      <div class="col-sm-12">Billeterie du Louvre<p class="text-center"></div>
+     </section>
 
-{% block title %}
-  Billeterie - {{ parent() }}
-{% endblock %}
+    </section>
+      <section class="row">
+        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/louvreExterieur.jpg') }}" alt="logo" class="img-thumbnail"/></div>
+        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/louvreEntree.jpg') }}" alt="logo"class="img-thumbnail"/></div>
+        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/louvreCouloir.jpg') }}" alt="logo"class="img-thumbnail"/></div>
+        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/louvreCentral.jpg') }}" alt="logo"class="img-thumbnail"/></div>
+        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/louvreCouloir2.jpg') }}" alt="logo"class="img-thumbnail"/></div>
+        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/louvreTableaux.jpg') }}" alt="logo"class="img-thumbnail"/></div>
 
-{% block body %}
+      </section>
 
-  {# On définit un sous-titre commun à toutes les pages du bundle, par exemple #}
-  <h1>Annonces</h1>
+    {% block stylesheets %}
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    {% endblock %}
+  </head>
 
-  <hr>
+  <body>
+  
+    {% block daoticketing_body %}
+    {% endblock %}
+  
+  </body>
 
-  {# On définit un nouveau bloc, que les vues du bundle pourront remplir #}
-  {% block daoplatform_body %}
+  <footer>
+    <p>Projet 4, Billeterie du Louvre</p>
+  </footer>
+
+  {% block javascripts %}
+    {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   {% endblock %}
 
-{% endblock %}
+
+</html>

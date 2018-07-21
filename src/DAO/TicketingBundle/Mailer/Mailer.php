@@ -24,12 +24,12 @@ class Mailer
      * @param $to
      * @param $body
      */
-    public function sendMail(/*$to,*/ $body)
+    public function sendMail($to, $body)
     {
         $mail = \Swift_Message::newInstance();
         $mail
             ->setFrom(array('anhdao.lelievre@gmail.com' => 'LouvreConfirmation'))
-            ->setTo('lelievre.anhdao@gmail.com')
+            ->setTo($to)
             ->setSubject('Vos billets Visite du Louvre')
             ->setBody($body)
             ->setContentType('text/html')
@@ -43,10 +43,10 @@ class Mailer
      */
     public function sendTicket(Visitor $visitor, Ticket $ticket)
     {
-        //$to         = $ticket->getMailVisiteur();
+        $to         = $ticket->getMailVisiteur();
         $body       = $this->templating->render('DAOTicketingBundle:Mail:ticket.html.twig', array(
             'visitor' => $visitor,
             'ticket' => $ticket));
-        $this->sendMail($body/*, $to*/);
+        $this->sendMail($to, $body);
     }
 }

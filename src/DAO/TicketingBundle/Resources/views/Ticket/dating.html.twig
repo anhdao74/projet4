@@ -1,14 +1,6 @@
 {# src/DAO/TicketingBundle/Resources/views/Ticket/dating.html.twig #}
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Billeterie du Louvre</title>
-  </head>
-  <body>
-    <img src = "logoLouvre.jpg" alt = "logo"/>
-    <h1>Billeterie du Louvre</h1>
-
+{% extends "DAOTicketingBundle::layout.html.twig" %}
 
 
 {% block daoticketing_body %}
@@ -17,17 +9,7 @@
 
   {{ include("DAOTicketingBundle:Ticket:form.html.twig") }}
 
-
-
-  
-  {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
   {{ form_widget(form.Suivant, {'attr': {'class': 'btn btn-primary'}}) }}
-  
- 
-  
-
-
 
 {% endblock %}
-</body>
-</html>
+

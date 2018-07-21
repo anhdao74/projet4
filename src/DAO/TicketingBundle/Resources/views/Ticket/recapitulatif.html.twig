@@ -1,18 +1,10 @@
 {# src/DAO/TicketingBundle/Resources/views/Ticket/recapitulatif.html.twig #}
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Billeterie du Louvre</title>
-  </head>
-  <body>
-    <img src = "logoLouvre.jpg" alt = "logo"/>
-    <h1>Billeterie du Louvre</h1>
-
-<body>
+{% extends "DAOTicketingBundle::layout.html.twig" %}
 
 {% block daoticketing_body %}
 
+<div class="well">
     <h2>Récapitulatif de votre commande</h2>
 
     <table>
@@ -25,6 +17,7 @@
       <th><p>Corriger</p></th>
     </tr>
 
+    {% for visitor in visitors %} 
     <tr>
       <td> {{ visitor.nom }} </td>
       <td>{{visitor.prenom}}</td>
@@ -33,16 +26,17 @@
       <td>{{visitor.prix}} €</td>
       <td><input type= "submit" value="Corriger" action=""></td>
     </tr>
+   {% endfor %}
 
     </table>
-      <p>Le total de votre commande est de {{visitor.prix}} €</p>
+
     
+      <p>Le total de votre commande est de {{visitor.prix}} €</p>
+   
     
 
-    <a href="{{ path('dao_ticketing_home_payment', {'id': visitor.id}) }}" class="btn btn-danger">
-      <i class="glyphicon glyphicon-trash"></i>
-      Suivant
+    <a href="{{ path('dao_ticketing_home_payment', {'id': visitor.id}) }}" class="btn btn-info">
+      Payer
     </a>
- 
+</div>
 {% endblock %}
-</body>

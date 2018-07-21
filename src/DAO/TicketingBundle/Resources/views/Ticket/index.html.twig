@@ -1,19 +1,20 @@
 {# src/DAO/TicketingBundle/Resources/views/Ticket/index.html.twig #}
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Billeterie du Louvre</title>
-  </head>
-  <body>
-    <img src = "logoLouvre.jpg" alt = "logo"/>
-    <h1>Billeterie du Louvre</h1>
+{% extends "DAOTicketingBundle::layout.html.twig" %}
 
-    <p> Bienvenue sur le site de la billeterie en ligne du musée du Louvre, pour continuer cliquer sur le bouton suivant : </p>
-    <a href="{{ path('dao_ticketing_date') }}" class="btn btn-danger">
-      <i class="glyphicon glyphicon-trash"></i>
-      Suivant
-    </a>
+{% block daoticketing_body %}
+  
+  <div class="well">
 
-  </body>
-</html>
+
+  <p> Bienvenue sur le site de la billeterie en ligne du musée du Louvre, pour continuer cliquer sur le bouton suivant : </p>
+  </br>
+  </br>
+  </br>
+  <a href="{{ path('dao_ticketing_date') }}" class="btn btn-info">
+    Suivant
+  </a>
+  </div>
+{% endblock %}
+
+

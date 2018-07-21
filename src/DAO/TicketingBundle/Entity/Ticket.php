@@ -172,10 +172,10 @@ class Ticket
         return $this->mailVisiteur;
     }
 
-    /*public function __toString()
+    public function __toString()
     {
-        return $this->getMailVisiteur();
-    }*/
+        return $this->getDateResa();
+    }
         /**
      * Constructor
      */
@@ -244,4 +244,19 @@ class Ticket
     {
         return $this->resaCode;
     }
+
+    /**
+     * Calcule le montant total de la commande
+     *
+     * @return int
+     */
+    /*public function getTotalPrice()
+    {
+        $visitors = $this->getNbTickets();
+        $total = 0;
+        foreach($visitors as $visitor){
+            $total = $total + $visitor->getPrix();
+        }
+        return $total;
+    }*/
 }

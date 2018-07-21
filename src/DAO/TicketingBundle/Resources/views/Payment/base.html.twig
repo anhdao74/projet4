@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Billeterie du Louvre</title>
-  </head>
-  <body>
-    <img src = "logoLouvre.jpg" alt = "logo"/>
-    <h1>Billeterie du Louvre</h1>
+{% extends "DAOTicketingBundle::layout.html.twig" %}
 
+{% block daoticketing_body %}
+
+<div class="well">
 <p>Vous allez faire un paiment pour un montant de {{visitor.prix}} €</p>
     <h2> Merci saisir vos informations de paiement :</h2>
 
@@ -14,7 +10,7 @@
     <script
     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
     data-key="pk_test_tFaJp3msiY8IK0kcRFOWZblS"
-    data-amount="{{visitor.prix}} *100"
+    data-amount="{{visitor.prix*100}}"
     data-name="AnhDao"
     data-description="Example charge"
     data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
@@ -22,5 +18,6 @@
     data-currency="eur">
     </script>
 </form>
+</div>
+{% endblock %}
 
-</body>

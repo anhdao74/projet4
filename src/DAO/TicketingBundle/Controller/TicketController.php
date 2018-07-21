@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\DateTime;
 use DAO\TicketingBundle\Mailer\Mailer;
 
 class TicketController extends Controller
@@ -33,41 +34,55 @@ class TicketController extends Controller
 		
 		$ticket = new Ticket;
 		$ticket->setDateResa(new \DateTime());
-
+		//var_dump($ticket);
 		$form = $this->get('form.factory')->create(TicketType::class, $ticket);
 		$form->handleRequest($request);
-
 		
-		if ($form->isSubmitted() && $form->isValid())
-		{
-			$em = $this->getDoctrine()->getManager();
-			$code1 = $ticket->getId();
-			$code2 = $ticket->getDateResa();
-			
-			$ticket->setResaCode('louvre6') ;
-			$em->persist($ticket);
+		$date1 = new \DateTime("05/01/2018");
+		$date2 = new \DateTime("11/01/2018");
+		$date3 = new \DateTime("12/25/2018");
+		
+		//var_dump($ticket('id'));
+			if ($form->isSubmitted() && $form->isValid() /*&& ($date_valide === $date1) || ($date_valide === $date2) || ($date_valide === $date3)*/)
+			{
+				$em = $this->getDoctrine()->getManager();
+				
+				$ticket->setResaCode('louvre6') ;
+				//$date_valide = $ticket->setDateResa();
 
-			$em->flush();
+				/*if (($date_valide === $date1) || ($date_valide === $date2) || ($date_valide === $date3)){
+					echo "Le musée ferme ses portes le 1er mai, 1er novembre et le 25 décembre";
+					return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
+				}else{*/
 
+					$em->persist($ticket);
+					$em->flush();
 
-			return $this->redirectToRoute('dao_ticketing_register', array(
-				'id' => $ticket->getId(),
-				'nbTickets' => $ticket->getNbTickets(),
-				'ticket' => $ticket
-			));
-			//return $this->registerVisitorAction($request, array('id' => $ticket->getId()));
-		}
+					$current = 1;
 
-		return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
+					return $this->redirectToRoute('dao_ticketing_register', array(
+						'id' => $ticket->getId(),
+						'nbTickets' => $ticket->getNbTickets(),
+						'current' => $current,
+						'ticket' => $ticket
+					));
+				//}
+			}
+//var_dump($date1);
+			return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
+		
 	}
 
-	public function registerVisitorAction ($id, $nbTickets, Request $request)
+	public function capacityCheck(Request $request)
+	{
+		return $this->em->getRepository('LouvreShopBundle:TicketOrder')->getTicketsFor($date);
+	}
+
+	public function registerVisitorAction ($id, $nbTickets, $current, Request $request)
 	{	
 		$em = $this->getDoctrine()->getManager();
     	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
-		//$ticket = new Ticket;
-		$req = $request->request->all();
-		//var_dump($req);		
+		//$ticket = new Ticket;	
     		$visitor = new Visitor();			
     		
 			$form = $this->get('form.factory')->create(VisitorType::class, $visitor);
@@ -107,22 +122,23 @@ class TicketController extends Controller
 					//foreach ($groupes as $groupe) {
 					$em->persist($visitor);//}
 					$em->flush();
-					self::$i++;
-
-					/*incrementer index statique*/
-					/*if (self::$i < $nbTickets)
+					
+					if ($current < $nbTickets)
 					{
-						return $this->render('DAOTicketingBundle:Ticket:register.html.twig', array( 
-							'form' => $form->createView(),
-							'ticket' => $ticket,
-							));
-					}*/
-										//return $this->registerSummeryAction($request);
+						$current++;
+						var_dump($current);
+						return $this->redirectToRoute('dao_ticketing_register', array( 
+							'id' => $ticket->getId(),
+							'nbTickets' => $ticket->getNbTickets(),
+							'current' => $current,
+							'ticket' => $ticket
 
-					//$this->request->getSession()->set('visitor', $visitor);
+							));
+					}
 
 					return $this->redirectToRoute('dao_ticketing_summery', array(
-								'id' => $visitor->getId(),
+								'id' => $ticket->getId(),
+								//'visitors' => $visitor->getTicket(),
 								'ticket' => $ticket));					
 				}
 		
@@ -134,17 +150,23 @@ class TicketController extends Controller
 
 	public function registerSummeryAction ($id, Request $request)
 	{
+
+	$em = $this->getDoctrine()->getManager();
+    	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
+
 	$em = $this->getDoctrine()->getManager();
     $visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
 
-    $em = $this->getDoctrine()->getManager();
-    	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
-	//var_dump($visitor);
-	$req = $request->request->all();
+	$visitors = $this->getDoctrine()
+      ->getManager()
+      ->getRepository('DAOTicketingBundle:Visitor')
+      ->findBy(array('ticket' => $ticket))
+    ;
+    //var_dump($visitors);
 
-		//$content = $this->get('templating')->render('DAOTicketingBundle:Ticket:recapitulatif.html.twig');
 		return $this->render('DAOTicketingBundle:Ticket:recapitulatif.html.twig', array(
 			'visitor' => $visitor,
+			'visitors' => $visitors,
 			'id' => $visitor->getId(),
 			'ticket' => $ticket,));
 	}
