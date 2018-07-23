@@ -10,4 +10,14 @@ namespace DAO\TicketingBundle\Repository;
  */
 class TicketRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getTicketsCount(\DateTime $date)
+    {
+        return $this->createQueryBuilder('t')
+            ->select('COUNT(t)')
+            ->where('t.dateResa = :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
 }
