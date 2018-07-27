@@ -44,8 +44,11 @@ class TicketController extends Controller
         return (int) ($this-> $maxTicket - $ticketCount);
 	}
 
-	public function checkDateAction(\DateTime $date, Request $request)
+	public function checkDateAction(Request $request)
 	{
+		$em = $this->getDoctrine()->getManager();
+    	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id); 
+
 		$date1 = new \DateTime("05/01/2018");
 		$date2 = new \DateTime("11/01/2018");
 		$date3 = new \DateTime("12/25/2018");
@@ -63,8 +66,7 @@ class TicketController extends Controller
 	{
 		
 		$ticket = new Ticket;
-		//$ticket->setDateResa(new \DateTime());
-		//var_dump($ticket);
+		
 		$date1 = new \DateTime("05/01/2018");
 		$date2 = new \DateTime("11/01/2018");
 		$date3 = new \DateTime("12/25/2018");
@@ -80,15 +82,24 @@ class TicketController extends Controller
 
 			$date_valide = $ticket->getDateResa();
 
-			if (strtotime($date_valide->format('Y/m/d')) !== strtotime($date1->format('Y/m/d'))
-			//|| strtotime($date_valide->format('Y/m/d')) !== strtotime($date2->format('Y/m/d')) 
-			//|| strtotime($date_valide->format('Y/m/d')) !== strtotime($date3->format('Y/m/d'))
-			){
-			//var_dump($date_valide);
-		//var_dump($date1);
-			//var_dump($date1->format('D'));
-			//echo "super";
-			//exit;
+			//$date = self::checkDateAction($request);
+
+			if (strtotime($date_valide->format('Y/m/d')) === strtotime($date1->format('Y/m/d'))	){
+				echo "Nous fermons nos portes le 1er mai, le 1er novembre, le 25 décembre et tous les mardi";
+				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
+			}elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($date2->format('Y/m/d')) ) {
+				echo "Nous fermons nos portes le 1er mai, le 1er novembre, le 25 décembre et tous les mardi";
+				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
+			}elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($date3->format('Y/m/d'))) {
+				echo "Nous fermons nos portes le 1er mai, le 1er novembre, le 25 décembre et tous les mardi";
+				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
+			}elseif (strtotime($date_valide->format('D')) == "Tue") {
+				echo "Nous fermons nos portes le 1er mai, le 1er novembre, le 25 décembre et tous les mardi";
+				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
+			}else{
+				//var_dump($date_valide->format('D'));
+
+				//exit();
 				$em->persist($ticket);
 				$em->flush();
 
@@ -100,14 +111,9 @@ class TicketController extends Controller
 					'current' => $current,
 					'ticket' => $ticket
 				));
-			}else{
-				echo "Nous fermons nos portes le 1er mai, le 1er novembre, le 25 décembre et tous les mardi";
-				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
 			}
 		}
-//var_dump($date1);
 			return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
-		
 	}
 
 	public function registerVisitorAction ($id, $nbTickets, $current, Request $request)
