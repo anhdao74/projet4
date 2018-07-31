@@ -29,47 +29,47 @@ class TicketController extends Controller
 		return new Response($content);
 	}
 
-	public function capacityCheckAction(\DateTime $date, $tickets, Request $request)
+	public function capacityCheckAction(\DateTime $date, $nbTickets)
 	{
-		$ticketCount = $this->em->getRepository('DAOTicketingBundle:Ticket')->getTicketsCount($date);
+		$repository = $this
+			->getDoctrine()
+			->getManager()
+			->getRepository('DAOTicketingBundle:Ticket');
 
-        return ( ($ticketCount + $tickets) > 1000 ) ? false : true;
+		$ticketCount = $repository->getTicketsCount($date);
+
+        return ( ($ticketCount + $nbTickets) > 1000 ) ? false : true;
 	}
 
-	public function remainingTicketAction(\DateTime $date, $tickets, Request $request)
+	/*public function remainingTicketAction(\DateTime $date, $tickets, Request $request)
 	{
 		$maxTicket = 1000;
 		$ticketCount = $this->em->getRepository('DAOTicketingBundle:Ticket')->getTicketsCount($date);
 
         return (int) ($this-> $maxTicket - $ticketCount);
-	}
+	}*/
 
-	public function checkDateAction(Request $request)
+	/*public function checkDateAction(Request $request)
 	{
 		$em = $this->getDoctrine()->getManager();
     	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id); 
 
-		$date1 = new \DateTime("05/01/2018");
-		$date2 = new \DateTime("11/01/2018");
-		$date3 = new \DateTime("12/25/2018");
-
-		$date_valide = $ticket->getDateResa();
-		
-		if (strtotime($date_valide->format('Y/m/d')) !== strtotime($date1->format('Y/m/d'))
-			|| strtotime($date_valide->format('Y/m/d')) !== strtotime($date2->format('Y/m/d')) 
-			|| strtotime($date_valide->format('Y/m/d')) !== strtotime($date3->format('Y/m/d'))){
-				return true;
+		$date1 = new \DateTime("05/01/'Y'");
+		$date2 = new \DateTime("11/01/'Y'");
+		$date3 = new \DateTime("12/25/'Y'");
 		}
-	}
+	}*/
 
 	public function registerDateAction( Request $request)
 	{
 		
 		$ticket = new Ticket;
 		
-		$date1 = new \DateTime("05/01/2018");
-		$date2 = new \DateTime("11/01/2018");
-		$date3 = new \DateTime("12/25/2018");
+		$date1 = new \DateTime("05/01");
+		//$date1->format('Y');
+		var_dump($date1->format('m/d'));
+		$date2 = new \DateTime("11/01");
+		$date3 = new \DateTime("12/25");
 
 		$form = $this->get('form.factory')->create(TicketType::class, $ticket);
 		$form->handleRequest($request);
@@ -82,20 +82,29 @@ class TicketController extends Controller
 
 			$date_valide = $ticket->getDateResa();
 
+			$nbTickets = $ticket->getNbTickets();
+
+			$capacityCheck = self::capacityCheckAction($date_valide, $nbTickets);
+
+			var_dump($capacityCheck);
+
 			//$date = self::checkDateAction($request);
 
-			if (strtotime($date_valide->format('Y/m/d')) === strtotime($date1->format('Y/m/d'))	){
+			if (strtotime($date_valide->format('m/d')) === strtotime($date1->format('m/d'))	){
 				echo "Nous fermons nos portes le 1er mai, le 1er novembre, le 25 décembre et tous les mardi";
 				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
-			}elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($date2->format('Y/m/d')) ) {
+			}elseif (strtotime($date_valide->format('m/d')) === strtotime($date2->format('m/d')) ) {
 				echo "Nous fermons nos portes le 1er mai, le 1er novembre, le 25 décembre et tous les mardi";
 				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
-			}elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($date3->format('Y/m/d'))) {
+			}elseif (strtotime($date_valide->format('m/d')) === strtotime($date3->format('m/d'))) {
 				echo "Nous fermons nos portes le 1er mai, le 1er novembre, le 25 décembre et tous les mardi";
 				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
-			}elseif (strtotime($date_valide->format('D')) == "Tue") {
+			}elseif ($date_valide->format('D') == "Tue") {
 				echo "Nous fermons nos portes le 1er mai, le 1er novembre, le 25 décembre et tous les mardi";
 				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
+			}elseif ($capacityCheck == false) {
+				echo "Le quota de nombre de visiteurs par jour a été dépassé, merci de choisir un autre jour de visite";
+				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));	
 			}else{
 				//var_dump($date_valide->format('D'));
 
@@ -175,7 +184,7 @@ class TicketController extends Controller
 					}
 
 					return $this->redirectToRoute('dao_ticketing_summery', array(
-								'id' => $ticket->getId(),
+								'id' => $visitor->getId(),
 								//'visitors' => $visitor->getTicket(),
 								'ticket' => $ticket));					
 				}
@@ -190,22 +199,29 @@ class TicketController extends Controller
 	{
 
 	$em = $this->getDoctrine()->getManager();
-    	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
-
-	$em = $this->getDoctrine()->getManager();
     $visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
+    $prix = $visitor->getPrix();
+    $ticket = $visitor->getTicket();
 
 	$visitors = $this->getDoctrine()
       ->getManager()
       ->getRepository('DAOTicketingBundle:Visitor')
-      ->findBy(array('ticket' => $ticket))
+      ->findBy(array('ticket' => $ticket->getId()))
     ;
     //var_dump($visitors);
+    $total = 0;
+
+    foreach ($visitors as $visitor) {
+    	$total += $prix;
+    }
+
+    //var_dump($total);
 
 		return $this->render('DAOTicketingBundle:Ticket:recapitulatif.html.twig', array(
 			'visitor' => $visitor,
 			'visitors' => $visitors,
 			'id' => $visitor->getId(),
+			'total' => $total,
 			'ticket' => $ticket,));
 	}
 
@@ -214,14 +230,10 @@ class TicketController extends Controller
 		$em = $this->getDoctrine()->getManager();
     	$visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
 
-    	$em = $this->getDoctrine()->getManager();
-    	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
-
-    	$req = $request->request->all();
-
 		return $this->render('DAOTicketingBundle:Payment:base.html.twig', array(
 			'visitor' => $visitor,
 			'id' => $visitor->getId(),
+			//'total' => $total,
 			'ticket' => $ticket,));
 	}
 
