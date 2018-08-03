@@ -22,7 +22,6 @@ class VisitorType extends AbstractType
         $builder
             ->add('nom')
             ->add('prenom')
-
             ->add('birthDate', DateType::class, array(
             'label' => 'Date of Birth',
             'years' => range(1893, date('Y'))

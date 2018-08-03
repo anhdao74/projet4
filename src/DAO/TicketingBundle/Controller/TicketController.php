@@ -49,40 +49,26 @@ class TicketController extends Controller
         return (int) ($this-> $maxTicket - $ticketCount);
 	}*/
 
-	/*public function checkDateAction(Request $request)
-	{
-		$em = $this->getDoctrine()->getManager();
-    	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id); 
-
-		$date1 = new \DateTime("05/01/'Y'");
-		$date2 = new \DateTime("11/01/'Y'");
-		$date3 = new \DateTime("12/25/'Y'");
-		}
-	}*/
-
 	public function registerDateAction( Request $request)
 	{
 		
 		$ticket = new Ticket;
-		
+		$date = new \DateTime('now');
 		$date1 = new \DateTime("05/01");
-		//$date1->format('Y');
-		var_dump($date1->format('m/d'));
 		$date2 = new \DateTime("11/01");
 		$date3 = new \DateTime("12/25");
 
 		$form = $this->get('form.factory')->create(TicketType::class, $ticket);
 		$form->handleRequest($request);
 		
-		if ($form->isSubmitted() && $form->isValid())
-		{
+		if ($form->isSubmitted() && $form->isValid()) {
 			$em = $this->getDoctrine()->getManager();
-			
-			$ticket->setResaCode('louvre6') ;
 
 			$date_valide = $ticket->getDateResa();
 
 			$nbTickets = $ticket->getNbTickets();
+
+			$ticket->setResaCode("V".strtotime($date_valide->format('Y/m/d'))."Z".$nbTickets."louvre");
 
 			$capacityCheck = self::capacityCheckAction($date_valide, $nbTickets);
 
@@ -105,10 +91,13 @@ class TicketController extends Controller
 			}elseif ($capacityCheck == false) {
 				echo "Le quota de nombre de visiteurs par jour a été dépassé, merci de choisir un autre jour de visite";
 				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));	
+			}elseif (strtotime($date_valide->format('Y/m/d')) < strtotime($date->format('Y/m/d'))) {
+				echo "Vous ne pouvez pas réserver pour les jours passés";
+				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
+			}elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($date->format('Y/m/d')) && (strtotime($date_valide->format('h')) > 14 &&  ($type_valide == 1))) {
+				echo "Vous ne pouvez pas réserver un ticket journée pour aujourd'hui, vous pouvez choisir un billet demi-journéé ou un autre jour.";
+				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));	
 			}else{
-				//var_dump($date_valide->format('D'));
-
-				//exit();
 				$em->persist($ticket);
 				$em->flush();
 
@@ -129,65 +118,52 @@ class TicketController extends Controller
 	{	
 		$em = $this->getDoctrine()->getManager();
     	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
-		//var_dump($ticket);
-    		$visitor = new Visitor();			
-    		
-			$form = $this->get('form.factory')->create(VisitorType::class, $visitor);
+		$visitor = new Visitor();			
+		
+		$form = $this->get('form.factory')->create(VisitorType::class, $visitor);
 
-				if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
-				{
-					$visitor->setTicket($ticket);
-					//$groupes = $form['$i']->getData()["groupes"];
-					$age = $visitor->getAge();
-					$reduced = $visitor->getReduced();
+		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+			$visitor->setTicket($ticket);
+			$age = $visitor->getAge();
+			$reduced = $visitor->getReduced();
 
-					//Détermine le tarif du billet
-					if($age < 4)
-					{
-						$priceType = '0';
-					}
-						elseif($age >= 4 && $age < 12)
-						{
-							$priceType = '8';
-						}
-						elseif ($age >=60) 
-						{
-							$priceType = '12';
-						}
-					else
-					{
-						$priceType = '16';
-					}
-					if($reduced === true)
-					{
-						$priceType= ($priceType-10);
-					}
+			//Détermine le tarif du billet
+			if($age < 4) {
+				$priceType = '0';
+			}elseif($age >= 4 && $age < 12) {
+				$priceType = '8';
+			}elseif ($age >=60) {
+				$priceType = '12';
+			}else {
+				$priceType = '16';
+			}
 
-					$visitor->setPrix($priceType);
+			if($reduced === true) {
+				$priceType= ($priceType-10);
+			}
 
-					$em = $this->getDoctrine()->getManager();	
-					//foreach ($groupes as $groupe) {
-					$em->persist($visitor);//}
-					$em->flush();
-					
-					if ($current < $nbTickets)
-					{
-						$current++;
-						var_dump($current);
-						return $this->redirectToRoute('dao_ticketing_register', array( 
-							'id' => $ticket->getId(),
-							'nbTickets' => $ticket->getNbTickets(),
-							'current' => $current,
-							'ticket' => $ticket
+			$visitor->setPrix($priceType);
+			$em = $this->getDoctrine()->getManager();	
+			$em->persist($visitor);
+			$em->flush();
+			
+			if ($current < $nbTickets) {
+				$current++;
+				var_dump($current);
+				return $this->redirectToRoute('dao_ticketing_register', array( 
+					'id' => $ticket->getId(),
+					'nbTickets' => $ticket->getNbTickets(),
+					'current' => $current,
+					'ticket' => $ticket
 
-							));
-					}
+					));
+			}
 
-					return $this->redirectToRoute('dao_ticketing_summery', array(
-								'id' => $visitor->getId(),
-								//'visitors' => $visitor->getTicket(),
-								'ticket' => $ticket));					
-				}
+			return $this->redirectToRoute('dao_ticketing_summery', array(
+						'id' => $visitor->getId(),
+						//'visitors' => $visitor->getTicket(),
+						'ticket' => $ticket));					
+		}
 		
 		return $this->render('DAOTicketingBundle:Ticket:register.html.twig', array( 
 				'form' => $form->createView(),
@@ -195,27 +171,46 @@ class TicketController extends Controller
 				));
 	}
 
+	public function sumTotal($id)
+	{	
+		$em = $this->getDoctrine()->getManager();
+	    $visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
+	    $ticket = $visitor->getTicket();
+
+		$visitors = $this->getDoctrine()
+      		->getManager()
+      		->getRepository('DAOTicketingBundle:Visitor')
+      		->findBy(array('ticket' => $ticket->getId()))
+    	;
+
+	    foreach ($visitors as $visitor) {
+	    	$prix[] = $visitor->getPrix();
+	    }
+	    $total = 0;
+
+		foreach ($prix as $pri) {
+			$total += $pri;
+		}
+    	
+    	return $total;	
+	}	
+
 	public function registerSummeryAction ($id, Request $request)
 	{
 
-	$em = $this->getDoctrine()->getManager();
-    $visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
-    $prix = $visitor->getPrix();
-    $ticket = $visitor->getTicket();
+		$em = $this->getDoctrine()->getManager();
+	    $visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
 
-	$visitors = $this->getDoctrine()
-      ->getManager()
-      ->getRepository('DAOTicketingBundle:Visitor')
-      ->findBy(array('ticket' => $ticket->getId()))
-    ;
-    //var_dump($visitors);
-    $total = 0;
+	    //var_dump($prix);
+	    $ticket = $visitor->getTicket();
 
-    foreach ($visitors as $visitor) {
-    	$total += $prix;
-    }
+		$visitors = $this->getDoctrine()
+	      ->getManager()
+	      ->getRepository('DAOTicketingBundle:Visitor')
+	      ->findBy(array('ticket' => $ticket->getId()))
+	    ;
 
-    //var_dump($total);
+    	$total = self::sumTotal($id);
 
 		return $this->render('DAOTicketingBundle:Ticket:recapitulatif.html.twig', array(
 			'visitor' => $visitor,
@@ -230,10 +225,19 @@ class TicketController extends Controller
 		$em = $this->getDoctrine()->getManager();
     	$visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
 
+    	$ticket = $visitor->getTicket();
+    	$visitors = $this->getDoctrine()
+			->getManager()
+			->getRepository('DAOTicketingBundle:Visitor')
+			->findBy(array('ticket' => $ticket->getId()))
+			;
+	
+		$total = self::sumTotal($id);
+		
 		return $this->render('DAOTicketingBundle:Payment:base.html.twig', array(
 			'visitor' => $visitor,
 			'id' => $visitor->getId(),
-			//'total' => $total,
+			'total' => $total,
 			'ticket' => $ticket,));
 	}
 
@@ -248,18 +252,9 @@ class TicketController extends Controller
 
         \Stripe\Stripe::setApiKey("sk_test_mlM2espcCKxhUmKCA266wduq");
 
-        // Get the credit card details submitted by the form
         $token = $_POST['stripeToken'];
 
-        // Create a charge: this will charge the user's card
-        try 
-        {
-            /*$charge = \Stripe\Charge::create(array(
-                "amount" => 999, // Amount in cents
-                "currency" => "eur",
-                "source" => $token,
-                "description" => "Paiement Stripe - Billeterie du Louvre"
-            ));*/
+        try {
             $this->addFlash("success","Bravo ça marche !");
             $mailer = $this->container->get('dao_ticketing.mail'); 
 
@@ -269,15 +264,11 @@ class TicketController extends Controller
 			'visitor' => $visitor,
 			'id' => $visitor->getId(),
 			'ticket' => $ticket));
-        } 
-    	catch(\Stripe\Error\Card $e) 
-    	{
-
+        }catch(\Stripe\Error\Card $e) {
             $this->addFlash("error","Snif ça marche pas :(");
             return $this->render('DAOTicketingBundle:Payment:base.html.twig', array(
 			'visitor' => $visitor,
 			'id' => $visitor->getId()));
-            // The card has been declined
 		}
 	}
 

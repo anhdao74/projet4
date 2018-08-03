@@ -3,14 +3,14 @@
 {% block daoticketing_body %}
 
 <div class="well">
-<p>Vous allez faire un paiment pour un montant de {{visitor.prix}} €</p>
+<p>Vous allez faire un paiment pour un montant de {{total}} €</p>
     <h2> Merci saisir vos informations de paiement :</h2>
 
 <form action="{{ path('dao_ticketing_payment', {'id': visitor.id}) }}" method="POST">
     <script
     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
     data-key="pk_test_tFaJp3msiY8IK0kcRFOWZblS"
-    data-amount="{{visitor.prix*100}}"
+    data-amount="{{ total*100 }}"
     data-name="AnhDao"
     data-description="Example charge"
     data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
