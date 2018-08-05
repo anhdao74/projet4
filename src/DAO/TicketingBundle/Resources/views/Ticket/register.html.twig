@@ -25,18 +25,15 @@
         </button>
       </div>
       <div class="modal-body">
-  <div>
-    "Nombre de ticket"
-    <div class="col-sm-2">
-      <input type="text" value={{ ticket.nbTickets }}>
-    </div>
-  </div>
+  
+  	<form id="edit_form" action="{{ path('dao_ticketing_modifyTicket', {'id': ticket.id}) }}" method="POST">
+      Nombre de ticket: <input type="text" name="nbTicket" value={{ ticket.nbTickets }}><br/>
+    </form>
 
- 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-        <button type="submit" action= "__controller/modifyTicket"class="btn btn-primary">Enregister modification</button>
+        <button type="submit" action="{{ path('dao_ticketing_modifyTicket', {'id': ticket.id}) }}" class="btn btn-primary">Enregister modification</button>
       </div>
     </div>
   </div>

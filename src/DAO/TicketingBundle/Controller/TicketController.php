@@ -113,13 +113,25 @@ class TicketController extends Controller
 		$em = $this->getDoctrine()->getManager();
     	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
 
-    	$em->remove($ticket);
+    	$nbTickets = $_POST;
+    	$nbTickets = implode(',' , $nbTickets);
+    	var_dump($_POST);
+    	$ticket->setNbTickets($nbTickets);
+
 		$em->flush(); 
 
-		$form = $this->get('form.factory')->create(TicketType::class, $ticket);
-		$form->handleRequest($request);
+		$current = 1;
+		return $this->redirectToRoute('dao_ticketing_register', array(
+					'id' => $ticket->getId(),
+					'nbTickets' => $ticket->getNbTickets(),
+					'current' => $current,
+					'ticket' => $ticket
+				));
 
-		return $this->redirectToRoute('dao_ticketing_date');
+		//$form = $this->get('form.factory')->create(TicketType::class, $ticket);
+		//$form->handleRequest($request);
+
+		//return $this->redirectToRoute('dao_ticketing_date');
 	}
 
 	public function registerVisitorAction ($id, $nbTickets, $current, Request $request)
