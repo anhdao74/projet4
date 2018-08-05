@@ -1,0 +1,20 @@
+/*-----for border----*/
+.well{
+	font-family:Roboto,sans-serif;
+	  background-color : blue ;
+    
+     border-style: 1px solid grey;
+     margin: 0 auto;
+     text-align: center;
+     opacity: 0.8;
+     margin-top: 67px;
+   box-shadow: 2px 5px 5px 0px #eee;
+     max-width: 500px;
+     padding-top: 10px;
+     height: 365px;
+     margin-top: 166px;
+}
+
+.form-group{
+	height: 10px;
+}

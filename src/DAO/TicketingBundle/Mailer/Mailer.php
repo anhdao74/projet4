@@ -41,11 +41,11 @@ class Mailer
      *
      * @param TicketOrder $order
      */
-    public function sendTicket(Visitor $visitor, Ticket $ticket)
+    public function sendTicket($visitors, Ticket $ticket)
     {
         $to         = $ticket->getMailVisiteur();
         $body       = $this->templating->render('DAOTicketingBundle:Mail:ticket.html.twig', array(
-            'visitor' => $visitor,
+            'visitors' => $visitors,
             'ticket' => $ticket));
         $this->sendMail($to, $body);
     }

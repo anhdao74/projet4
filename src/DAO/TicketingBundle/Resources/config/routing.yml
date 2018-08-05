@@ -6,11 +6,18 @@ dao_ticketing_date:
     path:     /date
     defaults: { _controller: DAOTicketingBundle:Ticket:registerDate }
 
+dao_ticketing_modifyTicket:
+    path:     /modifyTicket/{id}
+    defaults: { _controller: DAOTicketingBundle:Ticket:modifyTicket }
+
 dao_ticketing_register:
     path:     /register/{id}/{nbTickets}/{current}
     defaults: { _controller: DAOTicketingBundle:Ticket:registerVisitor }
-    
 
+dao_ticketing_modifyVisitor:
+    path:     /modifyVisitor/{id}
+    defaults: { _controller: DAOTicketingBundle:Ticket:modifyVisitor }
+    
 dao_ticketing_summery:
     path:     /summery/{id}
     defaults: { _controller: DAOTicketingBundle:Ticket:registerSummery }

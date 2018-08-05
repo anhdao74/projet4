@@ -6,7 +6,7 @@
     <title>Billeterie du Louvre</title>
   </head>
   <body>
-    <img src = "logoLouvre.jpg" alt = "logo"/>
+    <div class="col-sm-12"><p class="text-center"><img src="{{ absolute_url(asset('Images/logoLouvre.jpg')) }}"></div>
     <h1>Billeterie du Louvre</h1>
 
 {% block daoticketing_body %}
@@ -18,7 +18,6 @@
                 <table>
                     <tr>
                         <td>
-                            {# for i  in 1..visitor #}
                             <table class="summary">
                                 <tr>
                                     <th><p>Date de visite</p></th>
@@ -27,14 +26,15 @@
                                     <th><p>Code réservation</p></th>
                                 </tr>
 
+                            {% for visitor in visitors %}
                                 <tr>
                                     <td> {{ ticket.getDateResa|date('d/m/Y') }} </td>
                                     <td><strong> {{ visitor.getNom|capitalize  }} {{ visitor.getPrenom|capitalize  }}</td>
                                     <td class="right"><strong class="pull-right">{{ visitor.getPrix }}€</strong></td>
                                     <td> {{ ticket.getResaCode }} </td>
                                 </tr>
+                            {% endfor %}
                             </table>
-                            {# endfor #}
                             <hr />
                         </td>
                     </tr>

@@ -7,36 +7,42 @@
 <div class="well">
     <h2>Récapitulatif de votre commande</h2>
 
-    <table>
-    <tr>
-      <th><p>Nom</p></th>
-      <th><p>Prénom</p></th>
-      <th><p>Date de naissance</p></th>
-      <th><p>Pays</p></th>
-      <th><p>Tarif</p></th>
-      <th><p>Corriger</p></th>
-    </tr>
+    <div class="row">
+      <div class="span5">
+        <table class="table table-striped table-condensed">
+    
+        <tr>
+          <th><p>Nom</p></th>
+          <th><p>Prénom</p></th>
+          <th><p>Date de naissance</p></th>
+          <th><p>Pays</p></th>
+          <th><p>Tarif</p></th>
+          <th><p>Corriger</p></th>
+        </tr>
 
-    {% for visitor in visitors %} 
-    <tr>
-      <td> {{ visitor.nom }} </td>
-      <td>{{visitor.prenom}}</td>
-      <td>{{visitor.birthDate|date('d/m/Y') }}</td>
-      <td>{{visitor.pays}}</td>
-      <td>{{visitor.prix}} €</td>
-      <td><input type= "submit" value="Corriger" action=""></td>
-    </tr>
-   {% endfor %}
+        {% for visitor in visitors %} 
+        <tr>
+          <td> {{ visitor.nom }} </td>
+          <td>{{visitor.prenom}}</td>
+          <td>{{visitor.birthDate|date('d/m/Y') }}</td>
+          <td>{{visitor.pays}}</td>
+          <td>{{visitor.prix}} €</td>
+          
+          <td class="text-center"><a href="{{ path('dao_ticketing_modifyVisitor', {'id': visitor.id}) }}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Supprimer</a></td>
+        </tr>
+        {% endfor %}
 
-    </table>
+        </table>
 
     
       <p>Le total de votre commande est de {{ total }} €</p>
    
     
 
-    <a href="{{ path('dao_ticketing_home_payment', {'id': visitor.id}) }}" class="btn btn-info">
-      Payer
-    </a>
+      <a href="{{ path('dao_ticketing_home_payment', {'id': visitor.id}) }}" class="btn btn-info">
+        Payer
+      </a>
+    </div>
+  </div>
 </div>
 {% endblock %}

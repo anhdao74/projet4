@@ -41,14 +41,6 @@ class TicketController extends Controller
         return ( ($ticketCount + $nbTickets) > 1000 ) ? false : true;
 	}
 
-	/*public function remainingTicketAction(\DateTime $date, $tickets, Request $request)
-	{
-		$maxTicket = 1000;
-		$ticketCount = $this->em->getRepository('DAOTicketingBundle:Ticket')->getTicketsCount($date);
-
-        return (int) ($this-> $maxTicket - $ticketCount);
-	}*/
-
 	public function registerDateAction( Request $request)
 	{
 		
@@ -72,6 +64,8 @@ class TicketController extends Controller
 
 			$capacityCheck = self::capacityCheckAction($date_valide, $nbTickets);
 
+			$type_valide = $ticket->getTicketType();
+
 			var_dump($capacityCheck);
 
 			//$date = self::checkDateAction($request);
@@ -94,7 +88,7 @@ class TicketController extends Controller
 			}elseif (strtotime($date_valide->format('Y/m/d')) < strtotime($date->format('Y/m/d'))) {
 				echo "Vous ne pouvez pas réserver pour les jours passés";
 				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
-			}elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($date->format('Y/m/d')) && (strtotime($date_valide->format('h')) > 14 &&  ($type_valide == 1))) {
+			}elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($date->format('Y/m/d')) && ($date_valide->format('h') > 14 &&  ($type_valide == 1))) {
 				echo "Vous ne pouvez pas réserver un ticket journée pour aujourd'hui, vous pouvez choisir un billet demi-journéé ou un autre jour.";
 				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));	
 			}else{
@@ -112,6 +106,20 @@ class TicketController extends Controller
 			}
 		}
 			return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
+	}
+
+	public function modifyTicketAction($id, Request $request)
+	{
+		$em = $this->getDoctrine()->getManager();
+    	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
+
+    	$em->remove($ticket);
+		$em->flush(); 
+
+		$form = $this->get('form.factory')->create(TicketType::class, $ticket);
+		$form->handleRequest($request);
+
+		return $this->redirectToRoute('dao_ticketing_date');
 	}
 
 	public function registerVisitorAction ($id, $nbTickets, $current, Request $request)
@@ -193,6 +201,19 @@ class TicketController extends Controller
 		}
     	
     	return $total;	
+	}
+
+	public function modifyVisitorAction($id, Request $request)
+	{	
+		$em = $this->getDoctrine()->getManager();
+    	$visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
+
+    	$em->remove($visitor);
+		$em->flush();
+
+		$form = $this->get('form.factory')->create(VisitorType::class, $visitor);
+
+		return $this->redirectToRoute('dao_ticketing_register');
 	}	
 
 	public function registerSummeryAction ($id, Request $request)
@@ -249,6 +270,7 @@ class TicketController extends Controller
 
     	$em = $this->getDoctrine()->getManager();
     	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id = $ticket_id);
+    	$visitors = $ticket->getVisitors();
 
         \Stripe\Stripe::setApiKey("sk_test_mlM2espcCKxhUmKCA266wduq");
 
@@ -258,7 +280,7 @@ class TicketController extends Controller
             $this->addFlash("success","Bravo ça marche !");
             $mailer = $this->container->get('dao_ticketing.mail'); 
 
-        	$mailer->sendTicket($visitor, $ticket);
+        	$mailer->sendTicket($visitors, $ticket);
 
             return $this->redirectToRoute("dao_ticketing_confirming", array(
 			'visitor' => $visitor,
