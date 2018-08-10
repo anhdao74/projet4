@@ -113,10 +113,13 @@ class TicketController extends Controller
 		$em = $this->getDoctrine()->getManager();
     	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
 
-    	$nbTickets = $_POST;
-    	$nbTickets = implode(',' , $nbTickets);
-    	var_dump($_POST);
+    	$nbTickets = $_POST['nbTicket'];
+    	//$nbTickets = implode(',' , $nbTickets);
+    	var_dump($nbTickets);
     	$ticket->setNbTickets($nbTickets);
+
+    	$dateResa = $_POST['dateResa'];
+    	$ticket->setDateResa(strtotime($dateResa->format('Y/m/d')));
 
 		$em->flush(); 
 
@@ -216,6 +219,47 @@ class TicketController extends Controller
 	}
 
 	public function modifyVisitorAction($id, Request $request)
+	{
+		$em = $this->getDoctrine()->getManager();
+    	$visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
+
+    	$nom = $_POST['nom'];
+    	//$nbTickets = implode(',' , $nbTickets);
+    	//var_dump($nbTickets);
+    	$visitor->setNom($nom);
+
+    	$prenom = $_POST['prenom'];
+    	$visitor->setPrenom($prenom);
+
+    	$birthDate = $_POST['birthDate'];
+    	//$visitor->setBirthDate(strtotime($birthDate->format('Y/m/d')));
+
+    	$pays = $_POST['pays'];
+    	$visitor->setPays($pays);
+
+		$em->flush(); 
+
+		return $this->redirectToRoute('dao_ticketing_summery', array(
+						'id' => $visitor->getId()));
+						//'visitors' => $visitor->getTicket(),
+						//'ticket' => $ticket));
+	}
+
+	public function deleteVisitorAction($id, Request $request)
+	{
+		$em = $this->getDoctrine()->getManager();
+    	$visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
+
+    	$em->remove($visitor); 
+		$em->flush(); 
+
+		return $this->redirectToRoute('dao_ticketing_summery', array(
+						'id' => $visitor->getId()));
+						//'visitors' => $visitor->getTicket(),
+						//'ticket' => $ticket));
+	}
+
+	/*public function modifyVisitorAction($id, Request $request)
 	{	
 		$em = $this->getDoctrine()->getManager();
     	$visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
@@ -226,7 +270,7 @@ class TicketController extends Controller
 		$form = $this->get('form.factory')->create(VisitorType::class, $visitor);
 
 		return $this->redirectToRoute('dao_ticketing_register');
-	}	
+	}*/	
 
 	public function registerSummeryAction ($id, Request $request)
 	{

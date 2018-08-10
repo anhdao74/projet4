@@ -17,7 +17,11 @@ dao_ticketing_register:
 dao_ticketing_modifyVisitor:
     path:     /modifyVisitor/{id}
     defaults: { _controller: DAOTicketingBundle:Ticket:modifyVisitor }
-    
+
+dao_ticketing_deleteVisitor:
+    path:     /deleteVisitor/{id}
+    defaults: { _controller: DAOTicketingBundle:Ticket:deleteVisitor }
+
 dao_ticketing_summery:
     path:     /summery/{id}
     defaults: { _controller: DAOTicketingBundle:Ticket:registerSummery }

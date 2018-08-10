@@ -1,7 +1,7 @@
 /*-----for border----*/
-.well{
+#container{
 	font-family:Roboto,sans-serif;
-	  background-color : blue ;
+	  background-color : #DEE8E7!important;
     
      border-style: 1px solid grey;
      margin: 0 auto;
@@ -18,3 +18,12 @@
 .form-group{
 	height: 10px;
 }
+
+h1{
+	font-size: 60px;
+}
+
+{% block daoticketing_body %}{
+	background-color: #DEE8E7;
+}
+
