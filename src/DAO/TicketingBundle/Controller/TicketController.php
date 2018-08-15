@@ -113,14 +113,13 @@ class TicketController extends Controller
 		$em = $this->getDoctrine()->getManager();
     	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
 
-    	$nbTickets = $_POST['nbTicket'];
-    	//$nbTickets = implode(',' , $nbTickets);
-    	var_dump($nbTickets);
+    	$nbTickets = $request->request->get('nbTicket');
     	$ticket->setNbTickets($nbTickets);
 
-    	$dateResa = $_POST['dateResa'];
-    	$ticket->setDateResa(strtotime($dateResa->format('Y/m/d')));
+    	$dateResa = new \DateTime($_POST['dateResa']);
+    	$ticket->setDateResa($dateResa);
 
+		$em->persist($ticket);
 		$em->flush(); 
 
 		$current = 1;
@@ -130,11 +129,6 @@ class TicketController extends Controller
 					'current' => $current,
 					'ticket' => $ticket
 				));
-
-		//$form = $this->get('form.factory')->create(TicketType::class, $ticket);
-		//$form->handleRequest($request);
-
-		//return $this->redirectToRoute('dao_ticketing_date');
 	}
 
 	public function registerVisitorAction ($id, $nbTickets, $current, Request $request)
@@ -224,25 +218,22 @@ class TicketController extends Controller
     	$visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
 
     	$nom = $_POST['nom'];
-    	//$nbTickets = implode(',' , $nbTickets);
-    	//var_dump($nbTickets);
     	$visitor->setNom($nom);
 
     	$prenom = $_POST['prenom'];
     	$visitor->setPrenom($prenom);
 
-    	$birthDate = $_POST['birthDate'];
-    	//$visitor->setBirthDate(strtotime($birthDate->format('Y/m/d')));
+    	$birthDate = new \DateTime($_POST['birthDate']);
+    	$visitor->setBirthDate($birthDate);
 
     	$pays = $_POST['pays'];
     	$visitor->setPays($pays);
 
+    	$em->persist($visitor);
 		$em->flush(); 
 
 		return $this->redirectToRoute('dao_ticketing_summery', array(
 						'id' => $visitor->getId()));
-						//'visitors' => $visitor->getTicket(),
-						//'ticket' => $ticket));
 	}
 
 	public function deleteVisitorAction($id, Request $request)
@@ -255,22 +246,7 @@ class TicketController extends Controller
 
 		return $this->redirectToRoute('dao_ticketing_summery', array(
 						'id' => $visitor->getId()));
-						//'visitors' => $visitor->getTicket(),
-						//'ticket' => $ticket));
 	}
-
-	/*public function modifyVisitorAction($id, Request $request)
-	{	
-		$em = $this->getDoctrine()->getManager();
-    	$visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
-
-    	$em->remove($visitor);
-		$em->flush();
-
-		$form = $this->get('form.factory')->create(VisitorType::class, $visitor);
-
-		return $this->redirectToRoute('dao_ticketing_register');
-	}*/	
 
 	public function registerSummeryAction ($id, Request $request)
 	{
@@ -333,7 +309,6 @@ class TicketController extends Controller
         $token = $_POST['stripeToken'];
 
         try {
-            $this->addFlash("success","Bravo ça marche !");
             $mailer = $this->container->get('dao_ticketing.mail'); 
 
         	$mailer->sendTicket($visitors, $ticket);
@@ -342,8 +317,11 @@ class TicketController extends Controller
 			'visitor' => $visitor,
 			'id' => $visitor->getId(),
 			'ticket' => $ticket));
+
         }catch(\Stripe\Error\Card $e) {
-            $this->addFlash("error","Snif ça marche pas :(");
+	    	$em->remove($visitor); 
+			$em->flush(); 
+
             return $this->render('DAOTicketingBundle:Payment:base.html.twig', array(
 			'visitor' => $visitor,
 			'id' => $visitor->getId()));

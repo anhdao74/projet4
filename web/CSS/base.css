@@ -20,10 +20,14 @@
 }
 
 h1{
-	font-size: 60px;
+	font-size: 100px;
 }
 
-{% block daoticketing_body %}{
+body{
+	background-color: #DEE8E7;
+}
+
+#images{
 	background-color: #DEE8E7;
 }
 

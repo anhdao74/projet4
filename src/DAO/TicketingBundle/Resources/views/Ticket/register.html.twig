@@ -29,14 +29,15 @@
   	<form id="edit_form" action="{{ path('dao_ticketing_modifyTicket', {'id': ticket.id}) }}" method="POST">
       Date de visite: <input type="datetime" name="dateResa" value={{ ticket.dateResa|date("m/d/Y") }}><br/>
       Nombre de ticket: <input type="text" name="nbTicket" value={{ ticket.nbTickets }}><br/>
-      Type de billet: <input type="text" name="nbTicket" value={{ ticket.nbTickets }}><br/>
-    </form>
+      Type de billet: <input type="text" name="ticketType" value={{ ticket.ticketType }}><br/>
+    
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-        <button type="submit" action="{{ path('dao_ticketing_modifyTicket', {'id': ticket.id}) }}" class="btn btn-primary">Enregister modification</button>
+        <input type="submit" class="btn btn-primary">
       </div>
+      </form>
     </div>
   </div>
 </div>

@@ -9,30 +9,46 @@ dao_ticketing_date:
 dao_ticketing_modifyTicket:
     path:     /modifyTicket/{id}
     defaults: { _controller: DAOTicketingBundle:Ticket:modifyTicket }
+    requirements:
+        id: \d+
 
 dao_ticketing_register:
     path:     /register/{id}/{nbTickets}/{current}
     defaults: { _controller: DAOTicketingBundle:Ticket:registerVisitor }
+    requirements:
+        id: \d+
+        nbTickets: \d+
+        current: \d+
 
 dao_ticketing_modifyVisitor:
     path:     /modifyVisitor/{id}
     defaults: { _controller: DAOTicketingBundle:Ticket:modifyVisitor }
+    requirements:
+        id: \d+
 
 dao_ticketing_deleteVisitor:
     path:     /deleteVisitor/{id}
     defaults: { _controller: DAOTicketingBundle:Ticket:deleteVisitor }
+    requirements:
+        id: \d+
 
 dao_ticketing_summery:
     path:     /summery/{id}
     defaults: { _controller: DAOTicketingBundle:Ticket:registerSummery }
+    requirements:
+        id: \d+
 
 dao_ticketing_home_payment:
     path:     /home_payment/{id}
     defaults: { _controller: DAOTicketingBundle:Ticket:paymentIndex }
+    requirements:
+        id: \d+
 
 dao_ticketing_payment:
     path:     /payment/{id}
     defaults: { _controller: DAOTicketingBundle:Ticket:payment }
+    requirements:
+        id: \d+
 
 dao_ticketing_confirming:
     path:     /confirming

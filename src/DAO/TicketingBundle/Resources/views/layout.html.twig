@@ -11,26 +11,27 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.5.5/sweetalert2.min.css">
-    <link rel="stylesheet" href="{{ asset('css/skins/square/grey.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/base.css') }}" />
+
     
     <title>{% block title %}Billeterie du Louvre{% endblock %}</title>
-     </section>
+    </section>
       <section class="row">
-      <div class="col-sm-12"><p class="text-center"><img src="{{ asset('Images/logoLouvre.jpg') }}" alt="logo"/></div>
+      
       <h1><div class="col-sm-12"><p class="text-center">Billeterie du Louvre</div></h1>
-     </section>
+      </section>
+    </section>
      </br>
      </br>
     </section>
       <section class="row">
       	<div id="images">
-	        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/louvreExterieur.jpg') }}" alt="logo" class="img-thumbnail"/></div>
-	        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/louvreEntree.jpg') }}" alt="logo"class="img-thumbnail"/></div>
-	        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/louvreCouloir.jpg') }}" alt="logo"class="img-thumbnail"/></div>
+      		<div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/exterieur2.jpg') }}" alt="logo"class="img-thumbnail"/></div>
+	        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/interieur.jpg') }}" alt="logo"class="img-thumbnail"/></div>
+	        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/interieur2.jpg') }}" alt="logo" class="img-thumbnail"/></div>
 	        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/louvreCentral.jpg') }}" alt="logo"class="img-thumbnail"/></div>
-	        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/louvreCouloir2.jpg') }}" alt="logo"class="img-thumbnail"/></div>
 	        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/louvreTableaux.jpg') }}" alt="logo"class="img-thumbnail"/></div>
+	        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/escalier2.jpg') }}" alt="logo"class="img-thumbnail"/></div>
         </div>
       </section>
   </head>
@@ -47,12 +48,19 @@
   </footer>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/icheck.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
     <script src="https://cdn.jsdelivr.net/sweetalert2/6.5.5/sweetalert2.min.js"></script>
-    <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://js.stripe.com/v2/" type="text/javascript"></script>
-    <script src="{{ asset('js/formater.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/script.js') }}"></script>
+
+    <script>
+    $(document).ready(function() {
+        $('.js-datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    });
+	</script>
+
   </body>
 </html>
