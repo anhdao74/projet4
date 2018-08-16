@@ -23,8 +23,9 @@ class VisitorType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('birthDate', DateType::class, array(
-            'label' => 'Date of Birth',
-            'years' => range(1893, date('Y'))
+                'widget' => 'single_text',
+                'html5' => false,
+                'attr' => ['class' => 'js-datepicker'],
             ))
             ->add('pays')
             ->add('reduced');

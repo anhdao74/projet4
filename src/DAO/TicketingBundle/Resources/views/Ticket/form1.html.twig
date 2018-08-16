@@ -1,7 +1,7 @@
 {# src/DAO/TicketingBundle/Resources/views/Ticket/form1.html.twig #}
 
 
-<div class="well">
+<div class="well1">
   {{ form_start(form, {'attr': {'class': 'form-horizontal'},'method': 'POST'}) }}
   <div class="ticket_visitor">
     <div class="form-group">
@@ -21,7 +21,7 @@
     <div class="form-group">
         {{ form_label(form.birthDate, "Date de naissance", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
         <div class="col-sm-10">
-        {{ form_widget(form.birthDate, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(form.birthDate, {'attr': {'class': 'form-control js-datepicker'}}) }}
       </div>
     </div>
 
@@ -35,7 +35,7 @@
     <div class="form-group">
         {{ form_label(form.reduced, "Tarif réduit", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
         <div class="col-sm-1 col-sm-offset-8">
-        {{ form_widget(form.reduced, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(form.reduced, {'attr': {'class': 'form-control1'}}) }}
       </div>
     </div>
 

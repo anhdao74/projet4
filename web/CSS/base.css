@@ -1,18 +1,82 @@
 /*-----for border----*/
-#container{
+.well{
 	font-family:Roboto,sans-serif;
-	  background-color : #DEE8E7!important;
+	  background-color : grey;
     
      border-style: 1px solid grey;
      margin: 0 auto;
      text-align: center;
      opacity: 0.8;
      margin-top: 67px;
-   box-shadow: 2px 5px 5px 0px #eee;
-     max-width: 500px;
+     box-shadow: 2px 5px 5px 0px #eee;
+     max-width: 80%;
      padding-top: 10px;
-     height: 365px;
-     margin-top: 166px;
+     height: 180px;
+     margin-top: 20px;
+}
+
+.well1{
+     font-family:Roboto,sans-serif;
+     background-color : grey;
+    
+     border-style: 1px solid grey;
+     margin: 0 auto;
+     text-align: center;
+     opacity: 0.8;
+     margin-top: 67px;
+     box-shadow: 2px 5px 5px 0px #eee;
+     max-width: 90%;
+     padding-top: 10px;
+     height: 200px;
+     margin-top: 20px;
+}
+
+.well2{
+     font-family:Roboto,sans-serif;
+     background-color : white;
+    
+     border-style: 1px solid grey;
+     margin: 20px auto;
+     
+     opacity: 0.8;
+     box-shadow: 2px 5px 5px 0px #eee;
+     max-width: 80%;
+     padding-top: 10px;
+     height: 270px;
+     margin-top: 20px;
+     padding-left: 50px;
+}
+
+.well3{
+     font-family:Roboto,sans-serif;
+     background-color : white;
+    
+     border-style: 1px solid grey;
+     margin: 20px auto;
+     
+     opacity: 0.8;
+     box-shadow: 2px 5px 5px 0px #eee;
+     max-width: 80%;
+     padding-top: 10px;
+     height: 140px;
+     margin-top: 20px;
+     padding-left: 50px;
+}
+
+.well4{
+     font-family:Roboto,sans-serif;
+       background-color : white;
+    
+     border-style: 1px solid grey;
+     margin: 0 auto;
+     text-align: center;
+     opacity: 0.8;
+     margin-top: 67px;
+     box-shadow: 2px 5px 5px 0px #eee;
+     max-width: 80%;
+     padding-top: 10px;
+     height: 240px;
+     margin-top: 20px;
 }
 
 .form-group{
@@ -31,3 +95,6 @@ body{
 	background-color: #DEE8E7;
 }
 
+.form-control{
+width: 90%;
+}

@@ -4,7 +4,7 @@
 
 {% block daoticketing_body %}
 
-<div class="well">
+<div class="well2">
     <h2>Récapitulatif de votre commande</h2>
 
     <div class="row">
@@ -43,7 +43,7 @@
    
     
 
-      <a href="{{ path('dao_ticketing_home_payment', {'id': visitor.id}) }}" class="btn btn-info">
+      <a href="{{ path('dao_ticketing_home_payment', {'id': ticket.id}) }}" class="btn btn-info">
         Payer
       </a>
     </div>

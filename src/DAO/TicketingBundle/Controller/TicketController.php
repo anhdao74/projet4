@@ -68,8 +68,6 @@ class TicketController extends Controller
 
 			var_dump($capacityCheck);
 
-			//$date = self::checkDateAction($request);
-
 			if (strtotime($date_valide->format('m/d')) === strtotime($date1->format('m/d'))	){
 				echo "Nous fermons nos portes le 1er mai, le 1er novembre, le 25 décembre et tous les mardi";
 				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
@@ -177,8 +175,8 @@ class TicketController extends Controller
 			}
 
 			return $this->redirectToRoute('dao_ticketing_summery', array(
-						'id' => $visitor->getId(),
-						//'visitors' => $visitor->getTicket(),
+						'id' => $ticket->getId(),
+						'visitors' => $visitor->getTicket(),
 						'ticket' => $ticket));					
 		}
 		
@@ -188,18 +186,8 @@ class TicketController extends Controller
 				));
 	}
 
-	public function sumTotal($id)
+	public function sumTotal($visitors)
 	{	
-		$em = $this->getDoctrine()->getManager();
-	    $visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
-	    $ticket = $visitor->getTicket();
-
-		$visitors = $this->getDoctrine()
-      		->getManager()
-      		->getRepository('DAOTicketingBundle:Visitor')
-      		->findBy(array('ticket' => $ticket->getId()))
-    	;
-
 	    foreach ($visitors as $visitor) {
 	    	$prix[] = $visitor->getPrix();
 	    }
@@ -245,17 +233,14 @@ class TicketController extends Controller
 		$em->flush(); 
 
 		return $this->redirectToRoute('dao_ticketing_summery', array(
-						'id' => $visitor->getId()));
+						'id' => $visitor->getTicket()->getId()));
 	}
 
 	public function registerSummeryAction ($id, Request $request)
 	{
 
 		$em = $this->getDoctrine()->getManager();
-	    $visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
-
-	    //var_dump($prix);
-	    $ticket = $visitor->getTicket();
+	    $ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
 
 		$visitors = $this->getDoctrine()
 	      ->getManager()
@@ -263,12 +248,10 @@ class TicketController extends Controller
 	      ->findBy(array('ticket' => $ticket->getId()))
 	    ;
 
-    	$total = self::sumTotal($id);
+    	$total = self::sumTotal($visitors);
 
 		return $this->render('DAOTicketingBundle:Ticket:recapitulatif.html.twig', array(
-			'visitor' => $visitor,
 			'visitors' => $visitors,
-			'id' => $visitor->getId(),
 			'total' => $total,
 			'ticket' => $ticket,));
 	}
@@ -297,11 +280,8 @@ class TicketController extends Controller
 	public function paymentAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-    	$visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
-    	$ticket_id = $visitor->getTicket();
 
-    	$em = $this->getDoctrine()->getManager();
-    	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id = $ticket_id);
+    	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
     	$visitors = $ticket->getVisitors();
 
         \Stripe\Stripe::setApiKey("sk_test_mlM2espcCKxhUmKCA266wduq");
