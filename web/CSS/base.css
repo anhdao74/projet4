@@ -1,7 +1,7 @@
 /*-----for border----*/
 .well{
 	font-family:Roboto,sans-serif;
-	  background-color : grey;
+	  background-color : #CECECE;
     
      border-style: 1px solid grey;
      margin: 0 auto;
@@ -17,7 +17,7 @@
 
 .well1{
      font-family:Roboto,sans-serif;
-     background-color : grey;
+     background-color : #CECECE;
     
      border-style: 1px solid grey;
      margin: 0 auto;
@@ -58,7 +58,7 @@
      box-shadow: 2px 5px 5px 0px #eee;
      max-width: 80%;
      padding-top: 10px;
-     height: 140px;
+     height: 170px;
      margin-top: 20px;
      padding-left: 50px;
 }
@@ -67,12 +67,12 @@
      font-family:Roboto,sans-serif;
        background-color : white;
     
-     border-style: 1px solid grey;
+     border-style: 1px solid white;
      margin: 0 auto;
      text-align: center;
      opacity: 0.8;
      margin-top: 67px;
-     box-shadow: 2px 5px 5px 0px #eee;
+     box-shadow: 2px 5px 5px 0px white;
      max-width: 80%;
      padding-top: 10px;
      height: 240px;
@@ -84,11 +84,16 @@
 }
 
 h1{
-	font-size: 100px;
+	font-size: 80px;
+     color: white;
+}
+
+h2{
+   color: white;  
 }
 
 body{
-	background-color: #DEE8E7;
+	background-color: #303030;
 }
 
 #images{

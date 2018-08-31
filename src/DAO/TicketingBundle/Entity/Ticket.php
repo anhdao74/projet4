@@ -61,7 +61,7 @@ class Ticket
     /**
     * @var int
     *
-    * @ORM\OneToMany(targetEntity="DAO\TicketingBundle\Entity\Visitor", mappedBy="ticket", cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="DAO\TicketingBundle\Entity\Visitor", mappedBy="ticket", cascade={"remove"})
     * @Assert\Valid()
     */
     private $visitors;

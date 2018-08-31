@@ -12,6 +12,12 @@ dao_ticketing_modifyTicket:
     requirements:
         id: \d+
 
+dao_ticketing_deleteTicket:
+    path:     /deleteTicket/{id}
+    defaults: { _controller: DAOTicketingBundle:Ticket:deleteTicket }
+    requirements:
+        id: \d+
+
 dao_ticketing_register:
     path:     /register/{id}/{nbTickets}/{current}
     defaults: { _controller: DAOTicketingBundle:Ticket:registerVisitor }

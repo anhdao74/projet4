@@ -3,10 +3,10 @@
 {% block daoticketing_body %}
 
 <div class="well3">
-<p>Vous allez faire un paiment pour un montant de {{total}} €</p>
+<p>Vous allez faire un paiement pour un montant de {{total}} €</p>
     <h2> Merci saisir vos informations de paiement :</h2>
 
-<form action="{{ path('dao_ticketing_payment', {'id': visitor.id}) }}" method="POST">
+<form action="{{ path('dao_ticketing_payment', {'id': ticket.id}) }}" method="POST">
     <script
     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
     data-key="pk_test_tFaJp3msiY8IK0kcRFOWZblS"
@@ -18,6 +18,8 @@
     data-currency="eur">
     </script>
 </form>
+</br>
+<a href="{{ path('dao_ticketing_deleteTicket', {'id': ticket.id}) }}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Annuler la transaction</a>
 </div>
 {% endblock %}
 
