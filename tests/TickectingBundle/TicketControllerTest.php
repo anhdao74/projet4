@@ -3,6 +3,7 @@
 namespace Tests\TickectingBundle\TicketControllerTest;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use DAO\TicketingBundle\Controller\TicketController;
 
 class TicketControllerTest extends WebTestCase
 {
@@ -14,13 +15,5 @@ class TicketControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertContains('Bienvenue sur le site de la billeterie en ligne', $crawler->filter('.well4 p')->text());
-    }
-
-    public function getPrice()
-    {
-    	$ticketController = new TicketController();
-    	$result = $ticketController->registerVisitorAction($age = 2);
-
-    	$this->assertEquals(0, $result);
     }
 }

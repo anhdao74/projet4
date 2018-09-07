@@ -18,7 +18,7 @@ class TicketServiceTest extends TestCase
     public function testDate()
     {
     	$ticketService = new TicketService();
-    	$result = $ticketService->isValideDate(new \DateTime("12/25"),2 ,1000);
+    	$result = $ticketService->isValideDate(new \DateTime("12/25"),2 , 1000, true);
 
     	$this->assertEquals(1, $result);
     }

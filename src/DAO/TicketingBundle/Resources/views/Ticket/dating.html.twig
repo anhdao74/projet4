@@ -4,6 +4,12 @@
 
 {% block daoticketing_body %}
 
+{% for msg in app.session.flashBag.get('error') %}
+	<div class="alert alert-error">
+	    {{ msg }}
+	</div>
+{% endfor %}
+
   <h2>Choisissez votre date de visite et le nombre de billet :</h2>
 
   {{ include("DAOTicketingBundle:Ticket:form.html.twig") }}

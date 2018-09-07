@@ -12,13 +12,6 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
 {
 	public function getTicketsCount(\DateTime $date)
     {
-        /*return $this->createQueryBuilder('t')
-            ->select('COUNT(t)')
-            ->where('t.dateResa = :date')
-            ->setParameter('date', $date)
-            ->getQuery()
-            ->getSingleScalarResult()
-            ;*/
         $queryBuilder = $this->_em->createQueryBuilder()
             ->select('COUNT(t)')
             ->from($this->_entityName, 't')
