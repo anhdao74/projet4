@@ -24,7 +24,5 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
         $results = $query->getSingleScalarResult();
 
         return $results;
-
-        var_dump($results);
     }
 }

@@ -57,19 +57,19 @@ class TicketController extends Controller
 			$ticketService = $this->container->get('dao_ticketing.ticketservice');
 			$isValideDate = $ticketService->isValideDate($date_valide, $nbTickets, $ticketCount, $type_valide);
 
-			if ($isValideDate == 1){
-				$this->addFlash("error","Nous fermons nos portes le 1er mai, le 1er novembre, le 25 décembre et tous les mardi");
+			$tabError = array(
+				1 => "Nous fermons nos portes le 1er mai, le 1er novembre, le 25 décembre et tous les mardi",
+				3 => "Vous ne pouvez pas réserver pour les jours passés",
+				4 => "Vous ne pouvez pas réserver un ticket journée pour aujourd'hui, vous pouvez choisir un billet demi-journéé ou un autre jour.",
+				5 => "Le quota de nombre de visiteurs par jour a été dépassé, merci de choisir un autre jour de visite",
+			 );
+
+			if (in_array($isValideDate, $tabError))
+			{
+				$this->addFlash("error", $tabError[$isValideDate]);
 				return $this->redirectToRoute('dao_ticketing_date', array('form' => $form->createView()));
-			}elseif ($isValideDate == 3) {
-				echo "Vous ne pouvez pas réserver pour les jours passés";
-				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
-			}elseif ($isValideDate == 4) {
-				echo "Vous ne pouvez pas réserver un ticket journée pour aujourd'hui, vous pouvez choisir un billet demi-journéé ou un autre jour.";
-				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
-			}elseif ($isValideDate == 5) {
-				return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
-				echo "Le quota de nombre de visiteurs par jour a été dépassé, merci de choisir un autre jour de visite";
-			}elseif ($isValideDate == 2){
+			}
+			elseif ($isValideDate == 2){
 				$em->persist($ticket);
 				$em->flush();
 
@@ -81,9 +81,8 @@ class TicketController extends Controller
 					'current' => $current,
 					'ticket' => $ticket
 				));
-			}
+			}			
 		}
-		//var_dump($isValideDate);
 		return $this->render('DAOTicketingBundle:Ticket:dating.html.twig', array('form' => $form->createView()));
 	}
 
@@ -168,24 +167,27 @@ class TicketController extends Controller
 	public function modifyVisitorAction($id, Request $request)
 	{
 		$em = $this->getDoctrine()->getManager();
-    	$visitor = $em->getRepository('DAOTicketingBundle:Visitor')->find($id);
+	    $ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
 
-    	$nom = $request->request->get('nom');
-    	$visitor->setNom($nom);
+		$eManager = $this->getDoctrine()->getManager();	      
+	    $visitors = $eManager->getRepository('DAOTicketingBundle:Visitor')
+	      ->findBy(array('ticket' => $ticket->getId()))
+	    ;
+	    foreach ($visitors as $visitor){
+	    	$nom = $request->request->get('nom');
+	    	$visitor->setNom($nom);
 
-    	$prenom = $request->request->get('prenom');
-    	$visitor->setPrenom($prenom);
+	    	$prenom = $request->request->get('prenom');
+	    	$visitor->setPrenom($prenom);
 
-    	$birthDate = new \DateTime($request->request->get('birthDate'));
-    	$visitor->setBirthDate($birthDate);
+	    	$birthDate = new \DateTime($request->request->get('birthDate'));
+	    	$visitor->setBirthDate($birthDate);
 
-    	$pays = $request->request->get('pays');
-    	$visitor->setPays($pays);
-
-    	$em->persist($visitor);
-		$em->flush(); 
-
-		$id = $visitor->getTicket();
+	    	$pays = $request->request->get('pays');
+	    	$visitor->setPays($pays);
+    	}
+    	$eManager->persist($visitor);
+		$eManager->flush(); 
 
 		return $this->redirectToRoute('dao_ticketing_summery', array(
 						'id' => $id));

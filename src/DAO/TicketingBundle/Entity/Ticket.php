@@ -25,10 +25,10 @@ class Ticket
     private $id;
 
     /**
-     * @var \Datetime
+     * @var \Date
      *
-     * @ORM\Column(name="date_resa", type="datetime")
-     * @Assert\DateTime()
+     * @ORM\Column(name="date_resa", type="date")
+     * @Assert\Date()
      */
     private $dateResa;
 
@@ -79,7 +79,7 @@ class Ticket
     /**
      * Set dateResa
      *
-     * @param \Datetime $dateResa
+     * @param \Date $dateResa
      *
      * @return Ticket
      */
@@ -93,7 +93,7 @@ class Ticket
     /**
      * Get dateResa
      *
-     * @return \Datetime
+     * @return \Date
      */
     public function getDateResa()
     {

@@ -35,7 +35,7 @@ class TicketService
 				$isValideDate = 1;
 			}elseif (strtotime($date_valide->format('m/d')) === strtotime($date3->format('m/d'))) {
 				$isValideDate = 1;
-			}elseif ($date_valide->format('D') == "Mon") {
+			}elseif ($date_valide->format('D') == "Tue") {
 				$isValideDate = 1;
 			}elseif ($capacityCheck == false) {
 				$isValideDate = 5;	

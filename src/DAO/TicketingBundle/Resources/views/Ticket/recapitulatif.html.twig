@@ -64,7 +64,7 @@
       </div>
       <div class="modal-body">
   
-    <form id="edit_form" action="{{ path('dao_ticketing_modifyVisitor', {'id': visitor.id}) }}" method="POST">
+    <form id="edit_form" action="{{ path('dao_ticketing_modifyVisitor', {'id': ticket.id}) }}" method="POST">
       Nom: <input type="text" name="nom" value={{ visitor.nom }}><br/>
       Prénom: <input type="text" name="prenom" value={{ visitor.prenom }}><br/>
       Date de naissance: <input type="datetime" name="birthDate" value={{ visitor.birthDate|date("Y/m/d") }}><br/>

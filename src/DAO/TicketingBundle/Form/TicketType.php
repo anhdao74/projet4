@@ -27,7 +27,7 @@ class TicketType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateResa',    DateTimeType::class, array(
+            ->add('dateResa',    DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => false,
                 'attr' => ['class' => 'js-datepicker'],
