@@ -186,6 +186,7 @@ class TicketController extends Controller
 	    	$pays = $request->request->get('pays');
 	    	$visitor->setPays($pays);
     	}
+    	
     	$eManager->persist($visitor);
 		$eManager->flush(); 
 
