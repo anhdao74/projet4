@@ -21,7 +21,7 @@
     </section>
       <section class="row">
       
-      <h1><div class="col-sm-12"><p class="text-center">Billeterie du Louvre</div></h1>
+      <h1><div class="col-sm-12 titre"><p class="text-center">Billeterie du Louvre</div></h1>
       </section>
     </section>
      </br>
@@ -42,15 +42,7 @@
   <body>
     
     {% block daoticketing_body %}
-
-    {% for label, messages in app.flashes(['warning', 'error']) %}
-      {% for message in messages %}
-        <div class="alert alert-{{ label }}">
-            {{ message }}
-        </div>
-      {% endfor %}
-    {% endfor %}
-
+    
     {% endblock %}
 
   <footer>

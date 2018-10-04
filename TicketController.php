@@ -150,6 +150,7 @@ class TicketController extends Controller
 			
 			if ($current < $nbTickets) {
 				$current++;
+				
 				return $this->redirectToRoute('dao_ticketing_register', array( 
 					'id' => $ticket->getId(),
 					'nbTickets' => $ticket->getNbTickets(),
@@ -158,7 +159,9 @@ class TicketController extends Controller
 
 					));
 			}
-
+			if($reduced){
+				$this->addFlash("error", "Vous avez choisi un tarif réduit, lors de votre visite, merci de vous munir de votre carte d'étudiant, d'employé du musée, du service du Ministère de la Culture, ou de militaire");
+			}
 			return $this->redirectToRoute('dao_ticketing_summery', array(
 						'id' => $ticket->getId(),
 						'visitors' => $visitor->getTicket(),
