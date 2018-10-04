@@ -4,10 +4,10 @@
 
 {% block daoticketing_body %}
 
-{% for msg in app.session.flashBag.get('error') %}
-	<div class="alert alert-error">
-	    {{ msg }}
-	</div>
+{% for message in app.flashes('error') %}
+    <div class="alert alert-error">
+        {{ message }}
+    </div>
 {% endfor %}
 
   <h2>Choisissez votre date de visite et le nombre de billet :</h2>

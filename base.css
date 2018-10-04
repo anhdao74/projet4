@@ -1,0 +1,181 @@
+
+/*-----for border----*/
+.well{
+	font-family:Roboto,sans-serif;
+	  background-color : #CECECE;
+    
+     border-style: 1px solid grey;
+     margin: 0 auto;
+     text-align: center;
+     opacity: 0.8;
+     margin-top: 67px;
+     box-shadow: 2px 5px 5px 0px #eee;
+     max-width: 80%;
+     padding-top: 10px;
+     height: 190px;
+     margin-top: 20px;
+}
+
+.well1{
+     font-family:Roboto,sans-serif;
+     background-color : #CECECE;
+    
+     border-style: 1px solid grey;
+     margin: 0 auto;
+     text-align: center;
+     opacity: 0.8;
+     margin-top: 67px;
+     box-shadow: 2px 5px 5px 0px #eee;
+     max-width: 90%;
+     padding-top: 10px;
+     height: 240px;
+     margin-top: 20px;
+}
+
+.well2{
+     font-family:Roboto,sans-serif;
+     background-color : white;
+    
+     border-style: 1px solid grey;
+     margin: 20px auto;
+     
+     opacity: 0.8;
+     box-shadow: 2px 5px 5px 0px #eee;
+     max-width: 80%;
+     padding-top: 10px;
+     height: auto;
+     margin-top: 20px;
+     padding-left: 50px;
+}
+
+.well3{
+     font-family:Roboto,sans-serif;
+     background-color : white;
+    
+     border-style: 1px solid grey;
+     margin: 20px auto;
+     
+     opacity: 0.8;
+     box-shadow: 2px 5px 5px 0px #eee;
+     max-width: 80%;
+     padding-top: 10px;
+     height: auto;
+     margin-top: 20px;
+     padding-left: 50px;
+}
+
+.well4{
+     font-family:Roboto,sans-serif;
+       background-color : white;
+    
+     border-style: 1px solid white;
+     margin: 0 auto;
+     text-align: center;
+     opacity: 0.8;
+     margin-top: 67px;
+     box-shadow: 2px 5px 5px 0px white;
+     max-width: 80%;
+     padding-top: 10px;
+     height: auto;
+     margin-top: 20px;
+}
+
+.form-group{
+	height: 10px;
+}
+
+.ticket-list .panel-heading {
+    background-color:#CECECE;
+    border-bottom: none;
+}
+.ticket-list .panel-body {
+    background-color:#CECECE;
+}
+.ticket-list .table-head{
+    border: none;  
+}
+
+h1{
+	font-size: 60px;
+     color: white;
+}
+
+h2{
+     font-size: 40px;
+   color: white;  
+}
+
+h2{
+     font-size: 40px;
+   color: black;  
+}
+
+h4{
+   color: white!important;  
+}
+
+body{
+	background-color: #303030;
+}
+
+#images{
+	background-color: #DEE8E7;
+     height: auto;
+}
+
+.form-control{
+     width: 90%;     
+}
+
+@media screen and (max-width: 690px)
+{
+    .well{          
+          font-size:9px;
+     }
+     h1{
+          font-size:20px;
+     }
+     h2{
+          font-size:14px;
+     }
+     .well1{          
+          font-size:10px;
+     }
+     .well2{          
+          font-size:10px;
+     }
+     .btn{
+          font-size:8px;
+     }
+     .well4,p{          
+          font-size:10px;
+     }
+     .well4,h2{          
+          color: black;
+     }
+}
+@media screen and (min-width: 691px) and (max-width: 980px)
+{
+    .well{
+          font-family:Roboto,sans-serif;
+            background-color : #CECECE;
+          
+          font-size:12px;
+          border-style: 1px solid grey;
+          margin: 0 auto;
+          text-align: center;
+          opacity: 0.8;
+          margin-top: 67px;
+          box-shadow: 2px 5px 5px 0px #eee;
+          max-width: 80%;
+          padding-top: 10px;
+          height: 180px;
+          margin-top: 20px;
+     }
+     h1{
+          font-size:24px;
+     }
+     h2{
+          font-size:16px;
+     }
+}

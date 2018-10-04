@@ -1,0 +1,28 @@
+{# src/DAO/TicketingBundle/Resources/views/Ticket/dating.html.twig #}
+
+{% extends "DAOTicketingBundle::layout.html.twig" %}
+
+{% block daoticketing_body %}
+
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        {{ message }}
+    
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+{% endfor %}
+
+  <h2>Choisissez votre date de visite et le nombre de billet :</h2>
+
+  <div class="well">
+
+    {{ include("DAOTicketingBundle:Ticket:form.html.twig") }}
+
+    {{ form_widget(form.Suivant, {'attr': {'class': 'btn btn-primary'}}) }}
+
+  </div>
+
+{% endblock %}
+

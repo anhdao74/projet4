@@ -29,8 +29,8 @@
   	<form id="edit_form" action="{{ path('dao_ticketing_modifyTicket', {'id': ticket.id}) }}" method="POST">
       Date de visite: <input type="datetime" name="dateResa" value={{ ticket.dateResa|date("m/d/Y") }}><br/>
       Nombre de ticket: <input type="text" name="nbTicket" value={{ ticket.nbTickets }}><br/>
-      Type de billet: <input type="text" name="ticketType" value={{ ticket.ticketType }}><br/>
-    
+      Type de billet: <input type="radio" name="ticketType" value="0">Journée<br/>
+      <input type="radio" name="ticketType" value="1">Demi-journée<br/>
 
       </div>
       <div class="modal-footer">
