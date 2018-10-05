@@ -4,12 +4,22 @@
 
 {% block daoticketing_body %}
 
+  {% for message in app.flashes('error') %}
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      {{ message }}
+    
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  {% endfor %} 
+
 <div class="well2">
-    <h2>Récapitulatif de votre commande</h2>
+  <h3>Récapitulatif de votre commande</h3>
 
     <div class="row">
-      <div class="span5">
-        <table class="table table-striped table-condensed">
+      <div class="span5 col-xs-11 col-sm-11 col-md-11">
+        <table class="table table-striped table-condensed col-xs-12 col-sm-12 col-md-12">
     
         <tr>
           <th><p>Nom</p></th>
@@ -28,11 +38,11 @@
           <td>{{visitor.pays}}</td>
           <td>{{visitor.prix}} €</td>
 
-          <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifyModal">
-            Modifier
-          </button></td>
-          
-          <td class="text-center"><a href="{{ path('dao_ticketing_deleteVisitor', {'id': visitor.id}) }}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Supprimer</a></td>
+          <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modifyModal">
+            Modifier </button>
+            <a href="{{ path('dao_ticketing_deleteVisitor', {'id': visitor.id}) }}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span> Supprimer</a>
+          </td>
+
         </tr>
         {% endfor %}
 
@@ -43,11 +53,12 @@
    
     
 
-      <a href="{{ path('dao_ticketing_home_payment', {'id': ticket.id}) }}" class="btn btn-info">
-        Payer
-      </a>
+        <a href="{{ path('dao_ticketing_home_payment', {'id': ticket.id}) }}" class="btn btn-info">
+          Payer
+        </a>
+        </br>
+      </div>
     </div>
-  </div>
 </div>
 
 

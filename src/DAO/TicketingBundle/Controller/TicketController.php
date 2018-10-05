@@ -50,7 +50,7 @@ class TicketController extends Controller
 
 			$nbTickets = $ticket->getNbTickets();
 
-			$ticket->setResaCode("V".strtotime($date_valide->format('Y/m/d'))."Z".$nbTickets."louvre");
+			//$ticket->setResaCode("V".strtotime($date_valide->format('Y/m/d'))."Z".$nbTickets."louvre");
 
 			$type_valide = $ticket->getTicketType();
 
@@ -58,23 +58,23 @@ class TicketController extends Controller
 			$isValideDate = $ticketService->isValideDate($date_valide, $nbTickets, $ticketCount, $type_valide);
 
 			$tabError = array(
-				1 => "Nous fermons nos portes le 1er mai, le 1er novembre, le 25 décembre et tous les mardi",
+				1 => "Nous fermons nos portes tous les mardi, les dimanches et jours fériés",
 				3 => "Vous ne pouvez pas réserver pour les jours passés",
 				4 => "Vous ne pouvez pas réserver un ticket journée pour aujourd'hui, vous pouvez choisir un billet demi-journéé ou un autre jour.",
 				5 => "Le quota de nombre de visiteurs par jour a été dépassé, merci de choisir un autre jour de visite",
 			 );
-
+			
 			if (array_key_exists($isValideDate, $tabError))
 			{
 				$this->addFlash("error", $tabError[$isValideDate]);
-				return $this->redirectToRoute('dao_ticketing_date', array('form' => $form->createView()));
+				return $this->redirectToRoute('dao_ticketing_date');
 			}
 			elseif ($isValideDate == 2){
 				$em->persist($ticket);
 				$em->flush();
 
 				$current = 1;
-
+				
 				return $this->redirectToRoute('dao_ticketing_register', array(
 					'id' => $ticket->getId(),
 					'nbTickets' => $ticket->getNbTickets(),
@@ -96,6 +96,9 @@ class TicketController extends Controller
 
     	$dateResa = new \DateTime($request->request->get('dateResa'));
     	$ticket->setDateResa($dateResa);
+
+    	$ticketType = $request->request->get('ticketType');
+    	$ticket->setTicketType($ticketType);
 
 		$em->persist($ticket);
 		$em->flush(); 
@@ -124,6 +127,10 @@ class TicketController extends Controller
 	{	
 		$em = $this->getDoctrine()->getManager();
     	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
+    	$dateResa = new \DateTime($request->request->get('dateResa'));
+    	$ticket->setResaCode("V".strtotime($dateResa->format('Y/m/d'))."Z".$nbTickets."louvre".$id);
+    	$em->persist($ticket);
+		$em->flush(); 
 		$visitor = new Visitor();			
 		
 		$form = $this->get('form.factory')->create(VisitorType::class, $visitor);
@@ -143,6 +150,7 @@ class TicketController extends Controller
 			
 			if ($current < $nbTickets) {
 				$current++;
+				
 				return $this->redirectToRoute('dao_ticketing_register', array( 
 					'id' => $ticket->getId(),
 					'nbTickets' => $ticket->getNbTickets(),
@@ -151,7 +159,9 @@ class TicketController extends Controller
 
 					));
 			}
-
+			if($reduced){
+				$this->addFlash("error", "Vous avez choisi un tarif réduit, lors de votre visite, merci de vous munir de votre carte d'étudiant, d'employé du musée, du service du Ministère de la Culture, ou de militaire");
+			}
 			return $this->redirectToRoute('dao_ticketing_summery', array(
 						'id' => $ticket->getId(),
 						'visitors' => $visitor->getTicket(),
@@ -238,7 +248,6 @@ class TicketController extends Controller
 		$em = $this->getDoctrine()->getManager();
     	$ticket = $em->getRepository('DAOTicketingBundle:Ticket')->find($id);
 
-    	//$ticket = $visitor->getTicket();
     	$visitors = $this->getDoctrine()
 			->getManager()
 			->getRepository('DAOTicketingBundle:Visitor')
@@ -275,9 +284,7 @@ class TicketController extends Controller
         	$mailer->sendTicket($visitors, $ticket);
 
             return $this->redirectToRoute("dao_ticketing_confirming", array(
-			'visitors' => $visitors
-			/*'id' => $visitor->getId(),
-			'ticket' => $ticket*/));
+			'visitors' => $visitors ));
 
         }catch(\Stripe\Error\Card $e) {
             return $this->render('DAOTicketingBundle:Payment:base.html.twig', array(

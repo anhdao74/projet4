@@ -3,45 +3,71 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Billeterie du Louvre</title>
+    {% block stylesheets %}
+      <meta charset="utf-8">    
+      <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.5.5/sweetalert2.min.css">
+      <link rel="stylesheet" href="{{ asset('CSS/base.css') }}" />
+      <link rel="stylesheet" type="text/css" media="screen and (max-width)" href="{{ asset('CSS/base.css') }}" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% endblock %}
+
+      <title>Billeterie du Louvre</title>
+
   </head>
   <body>
     <div class="col-sm-12"><p class="text-center"><img src="{{ absolute_url(asset('Images/logoLouvre.jpg')) }}"></div>
     <h1>Billeterie du Louvre</h1>
 
-{% block daoticketing_body %}
-<table class="body-wrap">
-    <tr>
-        <td></td>
-        <td class="container" bgcolor="#FFFFFF">
-            <div class="content">
-                <table>
-                    <tr>
-                        <td>
-                            <table class="summary">
-                                <tr>
-                                    <th><p>Date de visite</p></th>
-                                    <th><p>Nom</p></th>
-                                    <th><p>Tarif</p></th>                                    
-                                    <th><p>Code réservation</p></th>
-                                </tr>
+    {% block daoticketing_body %}
 
-                            {% for visitor in visitors %}
-                                <tr>
-                                    <td> {{ ticket.getDateResa|date('d/m/Y') }} </td>
-                                    <td><strong> {{ visitor.getNom|capitalize  }} {{ visitor.getPrenom|capitalize  }}</td>
-                                    <td class="right"><strong class="pull-right">{{ visitor.getPrix }}€</strong></td>
-                                    <td> {{ ticket.getResaCode }} </td>
-                                </tr>
-                            {% endfor %}
-                            </table>
-                            <hr />
-                        </td>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default ticket-list">
+              <div class="panel-heading">
+                <h3 class="panel-title text-center">Votre billet</h3>
+              </div>
+              <div class="panel-body ">
+                <table class="table">
+                  <thead class='table-head'>
+                    <tr class='table-head'>
+                      <th>Date de visite</th>
+                      <th>Nom</th>
+                      <th>Prénom</th>
+                      <th>Tarif</th>
+                      <th>Code réservation</th>
                     </tr>
-                </table>
+                  </thead>
+                  <tbody>
+                    {% for visitor in visitors %}
+                      <tr>
+                        <td> {{ ticket.getDateResa|date('d/m/Y') }} </td>
+                        <td><strong> {{ visitor.getNom|capitalize  }} </td>
+                        <td><strong> {{ visitor.getPrenom|capitalize  }} </td>
+                        <td class="right"><strong class="pull-right">{{ visitor.getPrix }}€</strong></td>
+                        <td> {{ ticket.getResaCode }} </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>      
+              </div>
             </div>
-        </td>
-        <td></td>
-    </tr>
-</table>
-{% endblock %}
+          </div>
+        </div>
+      </div>
+
+    {% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/sweetalert2/6.5.5/sweetalert2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://js.stripe.com/v2/" type="text/javascript"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
+
+  </body>
+</html>

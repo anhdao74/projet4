@@ -19,7 +19,7 @@ dao_ticketing_deleteTicket:
         id: \d+
 
 dao_ticketing_register:
-    path:     /register/{id}/{nbTickets}/{date_valide}/{current}
+    path:     /register/{id}/{nbTickets}/{current}
     defaults: { _controller: DAOTicketingBundle:Ticket:registerVisitor }
     requirements:
         id: \d+

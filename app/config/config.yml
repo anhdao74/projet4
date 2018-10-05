@@ -63,11 +63,10 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
-    encryption: tls
-    port:    587
-    spool:     { type: memory }
-    logging: true
+    transport: mail
+    username:  'anhdao.lel@anhdaolel.info'
+    password:  'Chipiebebe8!'
+    auth_mode:  login
+    host: auth.smtp.1and1.fr:587
+ 
+    
