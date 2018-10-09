@@ -61,10 +61,10 @@ class TicketService
 		$date6 = new \DateTime("07/14");
 		$date7 = new \DateTime("08/15");
 		$date8 = new \DateTime("11/11");
-		$paques = self::paques();
-		$date9 = date('Y/m/d',self::paques(1));
-		$date10 = date('Y-m-d', strtotime($date9.' +38 days'));
-		$date11 = date('Y-m-d', strtotime($date9.' +49 days'));
+		$annee = $date_valide->format('Y');
+		$paques = date('Y/m/d',self::paques(1, $annee));
+		$date10 = date('Y-m-d', strtotime($paques.' +38 days'));
+		$date11 = date('Y-m-d', strtotime($paques.' +49 days'));
 
 		$capacityCheck = self::capacityCheck($ticketCount, $nbTickets);
 		
@@ -86,7 +86,7 @@ class TicketService
 				$isValideDate = 1;
 			}elseif (strtotime($date_valide->format('m/d')) === strtotime($date8->format('m/d'))) {
 				$isValideDate = 1;
-			}elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($date9)) {
+			}elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($paques)) {
 				$isValideDate = 1;
 			}elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($date10)) {
 				$isValideDate = 1;
