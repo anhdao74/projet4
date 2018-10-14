@@ -52,56 +52,55 @@ class TicketService
 	public function isValideDate($date_valide, $nbTickets, $ticketCount, $type_valide)
 	{
 		$date = new \DateTime('now');
-
-		$date1 = new \DateTime("05/01");
-		$date2 = new \DateTime("11/01");
-		$date3 = new \DateTime("12/25");
-		$date4 = new \DateTime("01/01");
-		$date5 = new \DateTime("05/08");
-		$date6 = new \DateTime("07/14");
-		$date7 = new \DateTime("08/15");
-		$date8 = new \DateTime("11/11");
 		$annee = $date_valide->format('Y');
 		$paques = date('Y/m/d',self::paques(1, $annee));
-		$date10 = date('Y-m-d', strtotime($paques.' +38 days'));
-		$date11 = date('Y-m-d', strtotime($paques.' +49 days'));
+		
+		$tabDates = array(
+			1 => new \DateTime("05/01"),
+			2 => new \DateTime("11/01"),
+			3 => new \DateTime("12/25"),
+			4 => new \DateTime("01/01"),
+			5 => new \DateTime("05/08"),
+			6 => new \DateTime("07/14"),
+			7 => new \DateTime("08/15"),
+			8 => new \DateTime("11/11"),
+		);
 
+		$tabDatesPaques = array(
+			1 => $paques,
+			2 => date('Y-m-d', strtotime($paques.' +38 days')),
+			3 => date('Y-m-d', strtotime($paques.' +49 days')),
+		);
+		
 		$capacityCheck = self::capacityCheck($ticketCount, $nbTickets);
 		
 		$isValideDate = '';
+		foreach($tabDates as $key => $tabDate){
+			//var_dump($tabDate);
+			if (strtotime($date_valide->format('m/d')) === strtotime($tabDate->format('m/d'))){
+				$isValideDate = 1;
+				return $isValideDate;
+			} 
+		}
 
-		if (strtotime($date_valide->format('m/d')) === strtotime($date1->format('m/d'))	){
+		foreach($tabDatesPaques as $key => $tabDatePaques){
+			//var_dump($tabDate);
+			if (strtotime($date_valide->format('Y-m-d')) === strtotime($tabDatePaques)){
 				$isValideDate = 1;
-			}elseif (strtotime($date_valide->format('m/d')) === strtotime($date2->format('m/d')) ) {
-				$isValideDate = 1;
-			}elseif (strtotime($date_valide->format('m/d')) === strtotime($date3->format('m/d'))) {
-				$isValideDate = 1;
-			}elseif (strtotime($date_valide->format('m/d')) === strtotime($date4->format('m/d'))) {
-				$isValideDate = 1;
-			}elseif (strtotime($date_valide->format('m/d')) === strtotime($date5->format('m/d'))) {
-				$isValideDate = 1;
-			}elseif (strtotime($date_valide->format('m/d')) === strtotime($date6->format('m/d'))) {
-				$isValideDate = 1;
-			}elseif (strtotime($date_valide->format('m/d')) === strtotime($date7->format('m/d'))) {
-				$isValideDate = 1;
-			}elseif (strtotime($date_valide->format('m/d')) === strtotime($date8->format('m/d'))) {
-				$isValideDate = 1;
-			}elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($paques)) {
-				$isValideDate = 1;
-			}elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($date10)) {
-				$isValideDate = 1;
-			}elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($date11)) {
-				$isValideDate = 1;
-			}elseif ($date_valide->format('D') == "Tue") {
-				$isValideDate = 1;
-			}elseif ($date_valide->format('D') == "Sun") {
-				$isValideDate = 1;
-			}elseif ($capacityCheck == false) {
-				$isValideDate = 5;	
-			}elseif (strtotime($date_valide->format('Y/m/d')) < strtotime($date->format('Y/m/d'))) {
-				$isValideDate = 3;
-			}elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($date->format('Y/m/d')) && ($date->format('H') > 14 &&  ($type_valide == true))) {
-				$isValideDate = 4;	
+				return $isValideDate;
+			} 
+		}
+		
+		if ($date_valide->format('D') == "Tue") {
+			$isValideDate = 1;
+		}elseif ($date_valide->format('D') == "Sun") {
+			$isValideDate = 1;
+		}elseif ($capacityCheck == false) {
+			$isValideDate = 5;	
+		}elseif (strtotime($date_valide->format('Y/m/d')) < strtotime($date->format('Y/m/d'))) {
+			$isValideDate = 3;
+		}elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($date->format('Y/m/d')) && ($date->format('H') > 14 &&  ($type_valide == true))) {
+			$isValideDate = 4;	
 		}else{
 			$isValideDate = 2;
 		}
