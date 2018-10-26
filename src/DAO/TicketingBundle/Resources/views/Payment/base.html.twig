@@ -8,7 +8,7 @@
 
     <form action="{{ path('dao_ticketing_payment', {'id': ticket.id}) }}" method="POST">
       <script
-      src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+      src="https://checkout.stripe.com/checkout.js" class="stripe-button" 
         data-key="pk_test_tFaJp3msiY8IK0kcRFOWZblS"
         data-amount="{{ total*100 }}"
         data-name="AnhDao"
@@ -17,6 +17,12 @@
         data-locale="auto"
         data-currency="eur">
       </script>
+      <script>
+        // Hide default stripe button, be careful there if you
+        // have more than 1 button of that class
+        document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+        </script>
+        <button type="submit" class="yourCustomClass btn btn-info">Payer par carte</button>
     </form>
 
     </br>

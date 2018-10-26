@@ -56,7 +56,7 @@ class TicketController extends Controller
 
 			$ticketService = $this->container->get('dao_ticketing.ticketservice');
 			$isValideDate = $ticketService->isValideDate($date_valide, $nbTickets, $ticketCount, $type_valide);
-
+			
 			$tabError = array(
 				1 => "Nous fermons nos portes tous les mardi, les dimanches et jours fériés",
 				3 => "Vous ne pouvez pas réserver pour les jours passés",
@@ -212,9 +212,6 @@ class TicketController extends Controller
     	$em->remove($visitor); 
 		$em->flush(); 
 
-		if ($visitor->getId() == 0){
-			return $this->redirectToRoute('dao_ticketing_date');
-		}
 		return $this->redirectToRoute('dao_ticketing_summery', array(
 						'id' => $visitor->getTicket()->getId()));
 	}
@@ -230,7 +227,10 @@ class TicketController extends Controller
 	      ->getRepository('DAOTicketingBundle:Visitor')
 	      ->findBy(array('ticket' => $ticket->getId()))
 	    ;
-	    
+
+		if (!$visitors){
+			return $this->redirectToRoute('dao_ticketing_date');
+		}
 	    foreach ($visitors as $visitor) {
 	    	$prix[] = $visitor->getPrix();
 	    }

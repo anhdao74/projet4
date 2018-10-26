@@ -65,8 +65,8 @@ doctrine:
 swiftmailer:
     transport: mail
     username:  'anhdao.lel@anhdaolel.info'
-    password:  'Chipiebebe8!'
+    password:  'Adambebe130816!'
     auth_mode:  login
-    host: auth.smtp.1and1.fr:587
+    host: auth.smtp.1and1.fr
  
     

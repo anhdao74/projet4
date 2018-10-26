@@ -17,11 +17,14 @@
     <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/logo_44.png') }}" alt="logo"class="img-thumbnail"/></div>
     
     <title>{% block title %}Billeterie du Louvre{% endblock %}</title>
+    <button type="button" class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#infoPrix">
+            Info prix </button>
+                    
     
     </section>
       <section class="row">
       
-      <h1><div class="col-sm-12 titre"><p class="text-center">Billeterie du Louvre</div></h1>
+      <h1><div class="col-sm-12"><p class="text-center titre">Billeterie du Louvre</div></h1>
       </section>
     </section>
      </br>
@@ -37,6 +40,26 @@
 	        <div class="col-xs-4 col-sm-3 col-md-2"><img src="{{ asset('Images/escalier.jpg') }}" alt="logo"class="img-thumbnail"/></div>
         </div>
       </section>
+
+      <div class="modal fade" id="infoPrix" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h3 class="modal-title text-center" id="infoPrix">Tarifs</h3>              
+            </div>
+          <div class="modal-body">   
+            Tarif normal : 16€<br/>   
+            Tarif enfant (4 à 12 ans) : 8€<br/> 
+            Tarif senior (Plus de 60 ans) : 12€<br/>  
+            Tarif réduit* : -10€<br/>
+            * détenteur carte: militaire, étudiant, personnel du louvre, personnel du service du Ministère<br/>
+          </div>
+        </div>
+      </div>
+</div>
   </head>
 
   <body>

@@ -1,0 +1,13 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: db753539268.db.1and1.com
+    database_port: 3306
+    database_name: db753539268
+    database_user: dbo753539268
+    database_password: Chipiebebe8!
+    mailer_transport: gmail
+    mailer_host: smtp.gmail.com
+    mailer_user: "anhdao.lelievre@gmail.com"
+    mailer_password: "chipiebebe8"
+    mailer_auth_mode: login
+    secret: 8fdcf7832d2da3f38151a7bf36de010782f38c4f
