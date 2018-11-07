@@ -1,19 +1,19 @@
 <?php
 
-namespace AppBundle\Validator\Constraints;
+namespace DAO\TicketingBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use DAO\TicketingBundle\Service\TicketService;
 
-/**
- * @Annotation
- */
-class ValideDateValidator extends ConstraintValidator
-{
-    public function ValidateDate($date_valide) {
+class VerifyValidator extends ConstraintValidator
+{    
+    public function validate($date_valide, Constraint $constraint) {
+
         $date = new \DateTime('now');
         $annee = $date_valide->format('Y');
-        $paques = date('Y/m/d',self::paques(1, $annee));
+        $paques = date('Y/m/d',TicketService::paques(1, $annee));
 
         $tabDates = array(
             1 => new \DateTime("05/01"),
@@ -36,29 +36,24 @@ class ValideDateValidator extends ConstraintValidator
         foreach($tabDates as $key => $tabDate){
             //var_dump($tabDate);
             if (strtotime($date_valide->format('m/d')) === strtotime($tabDate->format('m/d'))){
-                    $isValideDate = 1;
-                    return $isValideDate;
+                    $this->context->addViolation($constraint->message1);
             } 
         }
 
         foreach($tabDatesPaques as $key => $tabDatePaques){
             //var_dump($tabDate);
             if (strtotime($date_valide->format('Y-m-d')) === strtotime($tabDatePaques)){
-                    $isValideDate = 1;
-                    return $isValideDate;
+                    $this->context->addViolation($constraint->message1);
             } 
         }
         if ($date_valide->format('D') == "Tue") {
-            $isValideDate = 1;
+            $this->context->addViolation($constraint->message1);
         }elseif ($date_valide->format('D') == "Sun") {
-                $isValideDate = 1;
+                $this->context->addViolation($constraint->message1);
         }elseif (strtotime($date_valide->format('Y/m/d')) < strtotime($date->format('Y/m/d'))) {
-                $isValideDate = 3;
+                $this->context->addViolation($constraint->message2);
         }elseif (strtotime($date_valide->format('Y/m/d')) === strtotime($date->format('Y/m/d')) && ($date->format('H') >= 14 &&  ($type_valide == true))) {
-                $isValideDate = 4;	
-        }else{
-                $isValideDate = 2;
+                $this->context->addViolation($constraint->message3);
         }
-        return $isValideDate;
     }
 }

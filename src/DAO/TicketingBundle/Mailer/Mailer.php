@@ -28,7 +28,7 @@ class Mailer
     {
         $mail = \Swift_Message::newInstance();
         $mail
-            ->setFrom(array('anhdao.lelievre@gmail.com' => 'LouvreConfirmation'))
+            ->setFrom(array('anhdao.lel@anhdaolel.info' => 'LouvreConfirmation'))
             ->setTo($to)
             ->setSubject('Vos billets Visite du Louvre')
             ->setBody($body)

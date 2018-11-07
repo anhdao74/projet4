@@ -57,16 +57,9 @@ class TicketController extends Controller
 			$ticketService = $this->container->get('dao_ticketing.ticketservice');
 			$isValideDate = $ticketService->isValideDate($date_valide, $nbTickets, $ticketCount, $type_valide);
 			
-			$tabError = array(
-				1 => "Nous fermons nos portes tous les mardi, les dimanches et jours fériés",
-				3 => "Vous ne pouvez pas réserver pour les jours passés",
-				4 => "Vous ne pouvez pas réserver un ticket journée pour aujourd'hui, vous pouvez choisir un billet demi-journéé ou un autre jour.",
-				5 => "Le quota de nombre de visiteurs par jour a été dépassé, merci de choisir un autre jour de visite",
-			 );
-			
-			if (array_key_exists($isValideDate, $tabError))
+			if ($isValideDate == 5)
 			{
-				$this->addFlash("error", $tabError[$isValideDate]);
+				$this->addFlash("error", "Le quota de nombre de visiteurs par jour a été dépassé, merci de choisir un autre jour de visite");
 				return $this->redirectToRoute('dao_ticketing_date');
 			}
 			elseif ($isValideDate == 2){
@@ -138,6 +131,15 @@ class TicketController extends Controller
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 			$visitor->setTicket($ticket);
 			$age = $visitor->getAge();
+
+			if ($age < 4 && $nbTickets ==1) {
+				$this->addFlash("error", "Un enfant de moins de 4 ans doit impérativement être accompagné d'un adulte, cliquer sur le bouton modifier, pour ajouter au mlins 1 visiteur");
+				return $this->render('DAOTicketingBundle:Ticket:register.html.twig', array( 
+					'form' => $form->createView(),
+					'ticket' => $ticket,
+				));
+			}
+
 			$reduced = $visitor->getReduced();	
 
 			$ticketService = $this->container->get('dao_ticketing.ticketservice');

@@ -11,9 +11,9 @@
      margin-top: 67px;
      box-shadow: 2px 5px 5px 0px #eee;
      max-width: 80%;
-     padding-top: 10px;
+     padding-top: 0px;
      height: 190px;
-     margin-top: 20px;
+     margin-top: 0px;
 }
 
 .well1{
@@ -126,6 +126,9 @@ body{
 .form-control{
      width: 90%;     
 }
+.ticket_visitor{
+     padding-top: 10px;
+}
 
 @media screen and (max-width: 690px)
 {
@@ -158,6 +161,9 @@ body{
      .well4{
      height: auto;
      }
+     .ticket_visitor{
+     padding-top: 15px;
+}
 }
 @media screen and (min-width: 691px) and (max-width: 980px)
 {
@@ -183,4 +189,10 @@ body{
      h2{
           font-size:16px;
      }
+}
+li {
+     position: absolute;
+     top:0px;
+     color:red;
+     font-style: italic;
 }

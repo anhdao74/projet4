@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use DAO\TicketingBundle\Validator\Constraints as TicketAssert;
 
 /**
  * Ticket
@@ -29,6 +30,7 @@ class Ticket
      *
      * @ORM\Column(name="date_resa", type="date")
      * @Assert\Date()
+     * @TicketAssert\Verify
      */
     private $dateResa;
 
